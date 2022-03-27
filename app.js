@@ -3,11 +3,22 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+dotenv.config({ path: './.env' });
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+// MongoDB connection setup
+mongoose.connect(
+  process.env.MONGODB_CONNECT , 
+  { useNewUrlParser: true },
+  () => console.log('Connected to MongoDB Atlas.')
+)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
