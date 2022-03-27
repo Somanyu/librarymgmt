@@ -8,6 +8,7 @@
     "serverstart": "SET DEBUG=librarymgmt:* & npm run devstart"
   },
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.0.0",
