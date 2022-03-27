@@ -17,7 +17,7 @@ var app = express();
 mongoose.connect(
   process.env.MONGODB_CONNECT , 
   { useNewUrlParser: true },
-  () => console.log('Connected to MongoDB Atlas.')
+  () => console.log('Connected to MongoDB Atlas (myFirstDatbase).')
 )
 
 // view engine setup
