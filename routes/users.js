@@ -13,14 +13,17 @@ router.post('/api/register',  async(req, res, next) => {
   let email = req.body.email;
   let password = req.body.password;
 
+  // Checks for the validation.
   const { error } = registerValidation(req.body);
   if(error) return res.status(400).send(error.details[0].message);
 
+  // Check if email exists in DB.
   const emailExist = await User.findOne({ email: email });
   if (emailExist) {
     return res.status(409).send("E-mail already exsits.");
   }
 
+  // Hash the password
   const hashPassword = await bcrypt.hash(password, 8);
 
   const user = new User({
@@ -31,7 +34,7 @@ router.post('/api/register',  async(req, res, next) => {
   });
   try {
     const savedUser = await user.save();
-    res.send('User saved in database');
+    res.send({ user: user._id, firstName: user.firstName, lastName: user.lastName });
   } catch(err) {
     console.log(err);
   }
@@ -40,8 +43,24 @@ router.post('/api/register',  async(req, res, next) => {
 
 
 /* POST /api/login listing. */
-router.post('/api/login', function(req, res, next) {
-  res.send('Login');
+router.post('/api/login', async(req, res, next) => {
+  
+  // Checks for the validation.
+  const { error } = loginValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  // Check if email exists in DB.
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return res.status(409).send("E-mail doesn't exist.");
+  }
+  
+  // Check if password is correct.
+  const validPassword = await bcrypt.compare(req.body.password, user.password)
+  if (!validPassword) return res.status(400).send('Invalid Password');
+
+  res.send({ firstName: user.firstName });
+
 });
 
 module.exports = router;
