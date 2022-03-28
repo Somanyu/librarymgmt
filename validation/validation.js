@@ -1,5 +1,6 @@
 const Joi = require('joi');
 
+/* Validation while registeration. */
 const registerValidation = (data) => {
     const schema = Joi.object({
         firstName: Joi.string()
@@ -15,6 +16,7 @@ const registerValidation = (data) => {
                 .required()
                 .email(),
         password: Joi.string()
+                .min(8)
                 .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
                 .required()
       });
@@ -32,6 +34,7 @@ const schemaLogin = Joi.object({
         .required()
         .email(),
     password: Joi.string()
+        .min(8)
         .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
         .required(),
 });
