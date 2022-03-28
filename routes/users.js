@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 var express = require('express');
 const User = require('../model/User');
 const { registerValidation, loginValidation } = require('../validation/validation');
@@ -20,11 +21,13 @@ router.post('/api/register',  async(req, res, next) => {
     return res.status(409).send("E-mail already exsits.");
   }
 
+  const hashPassword = await bcrypt.hash(password, 8);
+
   const user = new User({
     firstName: firstName,
     lastName: lastName,
     email: email,
-    password: password
+    password: hashPassword
   });
   try {
     const savedUser = await user.save();
