@@ -1,8 +1,7 @@
 var express = require('express');
 const User = require('../model/User');
-const Joi = require('joi');
-var router = express.Router();
 const { registerValidation, loginValidation } = require('../validation/validation');
+var router = express.Router();
 
 
 /* POST /api/register listing. */
@@ -14,7 +13,12 @@ router.post('/api/register',  async(req, res, next) => {
   let password = req.body.password;
 
   const { error } = registerValidation(req.body);
-  if(error) return res.status.send(error);
+  if(error) return res.status(400).send(error.details[0].message);
+
+  const emailExist = await User.findOne({ email: email });
+  if (emailExist) {
+    return res.status(409).send("E-mail already exsits.");
+  }
 
   const user = new User({
     firstName: firstName,
@@ -30,6 +34,7 @@ router.post('/api/register',  async(req, res, next) => {
   }
 
 });
+
 
 /* POST /api/login listing. */
 router.post('/api/login', function(req, res, next) {
