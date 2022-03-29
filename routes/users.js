@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 var express = require('express');
+const jwt = require('jsonwebtoken');
 const User = require('../model/User');
 const { registerValidation, loginValidation } = require('../validation/validation');
 var router = express.Router();
@@ -8,19 +9,32 @@ var router = express.Router();
 /* POST /api/register listing. */
 router.post('/api/register',  async(req, res, next) => {
 
-  let firstName = req.body.firstName;
-  let lastName = req.body.lastName;
-  let email = req.body.email;
-  let password = req.body.password;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const email = req.body.email;
+  const password = req.body.password;
+  const confirmPassword = req.body.confirmPassword;
 
   // Checks for the validation.
   const { error } = registerValidation(req.body);
-  if(error) return res.status(400).send(error.details[0].message);
-
+  if(error) {
+    return res.render('register', {
+      title: 'Library MS | Register',
+      error: error.details[0].message
+    });
+  }
   // Check if email exists in DB.
   const emailExist = await User.findOne({ email: email });
   if (emailExist) {
-    return res.status(409).send("E-mail already exsits.");
+    return res.render('register', { 
+      title: 'Library MS | Register',
+      message: 'Email already exists.' 
+    })
+  } else if (password != confirmPassword) {
+    return res.render('register', {
+      title: 'Library MS | Register',
+      passMessage: 'Passwords should match.'
+    })
   }
 
   // Hash the password
@@ -34,7 +48,10 @@ router.post('/api/register',  async(req, res, next) => {
   });
   try {
     const savedUser = await user.save();
-    res.send({ user: user._id, firstName: user.firstName, lastName: user.lastName });
+    // res.send({ user: user._id, firstName: user.firstName, lastName: user.lastName });
+    res.render('login', {
+      title: 'Library MS | Login',
+    })
   } catch(err) {
     console.log(err);
   }
@@ -59,7 +76,8 @@ router.post('/api/login', async(req, res, next) => {
   const validPassword = await bcrypt.compare(req.body.password, user.password)
   if (!validPassword) return res.status(400).send('Invalid Password');
 
-  res.send({ firstName: user.firstName });
+  const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+  res.header('auth-token', token).send(token);
 
 });
 
