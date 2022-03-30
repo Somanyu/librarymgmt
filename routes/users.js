@@ -9,42 +9,18 @@ var router = express.Router();
 
 
 /* POST /api/register listing. */
-router.post('/api/register',  authController.register); 
-
-
+router.post('/api/register', authController.register);
 
 /* POST /api/login listing. */
-router.post('/api/login', async(req, res, next) => {
-  
-  // Checks for the validation.
-  const { error } = loginValidation(req.body);
-  if (error) {
-    return res.render('login', {
-      title: 'Library MS | Login',
-      error: error.details[0].message
-    })
-  } 
-  // Check if email exists in DB.
-  const user = await User.findOne({ email: req.body.email });
-  if (!user) {
-    return res.render('login', {
-      title: 'Library MS | Login',
-      message: 'Email is not registered.'
-    })
-  }
-  
-  // Check if password is correct.
-  const validPassword = await bcrypt.compare(req.body.password, user.password)
-  if (!validPassword) {
-    return res.render('login', {
-      title: 'Library MS | Login',
-      passMessage: 'Inavlid Password or Email.'
-    })
-  }
+router.post('/api/login', authController.login);
 
-  const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-  res.header('auth-token', token).redirect('/posts');
-
+/* GET profile after logged in. */
+router.get('/profile', verify, (req, res) => {
+  User.findOne({_id: req.user})
+  res.render('profile')
 });
+
+/* GET profile logout. */
+router.get('/logout', authController.logout);
 
 module.exports = router;
