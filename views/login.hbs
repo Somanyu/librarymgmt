@@ -1,19 +1,44 @@
-<section class="login-clean">
-    <form action="/users/api/login" method="post" style="padding-top: 0px;">
-        <div class="illustration" style="margin-bottom: 15px;">
-            <img class="img-fluid" src="/images/casual-life-3d-avatar-with-man-in-green-shirt-and-orange-hat.png" width="100" height="100" />
+
+
+<div class="container" style="padding-top: 4rem;">
+    <div class="row">
+        <div class="col-md-6 col-xxl-4 offset-xxl-1">
+            <div style="margin-top: 1rem;margin-bottom: 8px;"><img class="img-fluid" src="/images/casual-life-3d-opened-orange-book-in-air.png" width="120" height="120" /></div>
+            <div style="margin-bottom: 2rem;margin-top: 1rem;">
+                <h1 style="font-family: Poppins, sans-serif;font-weight: bold;">Log in</h1>
+                <p style="font-family: Lato, sans-serif;letter-spacing: .7px;">See and manage your library with consulting support.</p>
+            </div>
+            <form action="/users/api/login" method="post" style="margin-top: 2rem;">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group mb-3">
+                            <label class="form-label" style="font-family: Lato, sans-serif;">Your email</label>
+                            <input class="form-control" type="text" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group mb-3">
+                            <label class="form-label" style="font-family: Lato, sans-serif;">Your password</label>
+                            <input class="form-control" type="text" />
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex d-lg-flex justify-content-between align-items-lg-center">
+                    <div class="form-check">
+                        <input id="formCheck-1" class="form-check-input" type="checkbox" />
+                        <label class="form-check-label" for="formCheck-1" style="font-family: Lato, sans-serif;font-size: 15px;">Remember me</label>
+                    </div>
+                    <a href="/" style="font-size: 15px;font-family: Lato, sans-serif;">Forgot password</a>
+                </div>
+                <div class="d-grid" style="margin-top: 14px;">
+                    <a class="btn btn-primary" type="submit" role="button" style="font-family: Roboto, sans-serif;background: #0051ba;font-size: 18px;letter-spacing: .4px;margin-top: 10px;">Log in</a>
+                </div>
+            </form>
         </div>
-        <h1 class="text-center" style="color: #292a2c;font-family: Roboto, sans-serif;margin-bottom: 2px;margin-top: -20px;font-size: 30px;">Welcome back!</h1>
-        <p class="text-center" style="margin-bottom: 3rem;font-family: Lato, sans-serif;font-size: 14px;">Login to continue Library MS</p>
-        <div class="mb-3">
-            <input class="form-control" type="email" name="email" placeholder="Email" style="font-family: Lato, sans-serif;" />
+        <div class="col-md-6 col-xxl-6 offset-xxl-1 d-lg-flex align-items-lg-center justify-content-xxl-center" style="background: #0051ba;">
+            <div><img class="img-fluid" height="500" width="500" src="/images/clip-reading-of-books-1.png" /></div>
         </div>
-        <div class="mb-3">
-            <input class="form-control" type="password" name="password" placeholder="Password" style="font-family: Lato, sans-serif;" />
-        </div>
-        <div class="mb-3">
-            <button class="btn btn-primary d-block w-100" type="submit" style="font-family: Roboto, sans-serif;font-size: 18px;background: #0051ba;">Log In</button>
-        </div>
-        <a href="/" style="font-family: Lato, sans-serif;font-size: 14px;">Forgot email or password?</a>
-    </form>
-</section>
+    </div>
+</div>
