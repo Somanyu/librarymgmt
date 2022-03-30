@@ -1,9 +1,7 @@
-
-
 <div class="container" style="padding-top: 4rem;">
-    <div class="row">
+    <div class="row" style=" background: #fffffffb;box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;">
         <div class="col-md-6 col-xxl-4 offset-xxl-1">
-            <div style="margin-top: 1rem;margin-bottom: 8px;"><img class="img-fluid" src="/images/casual-life-3d-opened-orange-book-in-air.png" width="120" height="120" /></div>
+            <div style="margin-top: 2rem;margin-bottom: 2rem;"><img class="img-fluid" src="/images/casual-life-3d-opened-orange-book-in-air.png" width="120" height="120" /></div>
             <div style="margin-bottom: 2rem;margin-top: 1rem;">
                 <h1 style="font-family: Poppins, sans-serif;font-weight: bold;">Log in</h1>
                 <p style="font-family: Lato, sans-serif;letter-spacing: .7px;">See and manage your library with consulting support.</p>
@@ -13,7 +11,7 @@
                     <div class="col-sm-12">
                         <div class="form-group mb-3">
                             <label class="form-label" style="font-family: Lato, sans-serif;">Your email</label>
-                            <input class="form-control" type="text" />
+                            <input class="form-control" type="email" name="email" />
                         </div>
                     </div>
                 </div>
@@ -21,7 +19,7 @@
                     <div class="col-sm-12">
                         <div class="form-group mb-3">
                             <label class="form-label" style="font-family: Lato, sans-serif;">Your password</label>
-                            <input class="form-control" type="text" />
+                            <input class="form-control" type="password" name="password" />
                         </div>
                     </div>
                 </div>
@@ -32,12 +30,23 @@
                     </div>
                     <a href="/" style="font-size: 15px;font-family: Lato, sans-serif;">Forgot password</a>
                 </div>
+
+                {{#if error }}
+                    <p style="color: #d30547;font-family: Lato, sans-serif;font-size: 16px;"><i class="icon-close" style="font-weight: bold;font-size: 17px;"></i>  {{error}}</p>
+                {{/if}}
+                {{#if message }}
+                    <p style="color: #d30547;font-family: Lato, sans-serif;font-size: 16px;"><i class="icon-close" style="font-weight: bold;font-size: 17px;"></i>  {{message}}</p>
+                {{/if}}
+                {{#if passMessage }}
+                    <p style="color: #d30547;font-family: Lato, sans-serif;font-size: 16px;"><i class="icon-close" style="font-weight: bold;font-size: 17px;"></i>  {{passMessage}}</p>
+                {{/if}}
+
                 <div class="d-grid" style="margin-top: 14px;">
-                    <a class="btn btn-primary" type="submit" role="button" style="font-family: Roboto, sans-serif;background: #0051ba;font-size: 18px;letter-spacing: .4px;margin-top: 10px;">Log in</a>
+                    <button class="btn btn-primary" type="submit" role="button" style="font-family: Roboto, sans-serif;background: #0051ba;font-size: 18px;letter-spacing: .4px;margin-top: 10px;margin-bottom: 3rem;">Log in</button>
                 </div>
             </form>
         </div>
-        <div class="col-md-6 col-xxl-6 offset-xxl-1 d-lg-flex align-items-lg-center justify-content-xxl-center" style="background: #0051ba;">
+        <div class="col-md-6 col-xxl-6 offset-xxl-1 d-lg-flex align-items-lg-center justify-content-xxl-center d-none d-sm-block" style="background: #0051ba;">
             <div><img class="img-fluid" height="500" width="500" src="/images/clip-reading-of-books-1.png" /></div>
         </div>
     </div>
