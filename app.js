@@ -10,14 +10,19 @@ dotenv.config({ path: './.env' });
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const postRoute = require('./routes/posts');
 
 var app = express();
 
 // MongoDB connection setup
-mongoose.connect(
-  process.env.MONGODB_CONNECT , 
-  { useNewUrlParser: true },
-  () => console.log('Connected to MongoDB Atlas (myFirstDatbase).')
+mongoose.connect(process.env.MONGODB_CONNECT, 
+  { useNewUrlParser: true }, (err) => {
+    if (!err) {
+      console.log('Connected to MongoDB Atlas (myFirstDatbase).');
+    } else{
+      console.log('Error in connecting to MongoDB Atlas: '+err);
+    }
+  }
 )
 
 // view engine setup
@@ -32,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/posts', postRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
