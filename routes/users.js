@@ -1,10 +1,7 @@
-const bcrypt = require('bcryptjs');
 var express = require('express');
-const jwt = require('jsonwebtoken');
 const User = require('../model/User');
 const verify = require('./verifyToken');
 const authController = require('../controller/auth');
-const { registerValidation, loginValidation } = require('../validation/validation');
 var router = express.Router();
 
 
@@ -16,8 +13,16 @@ router.post('/api/login', authController.login);
 
 /* GET profile after logged in. */
 router.get('/profile', verify, (req, res) => {
-  User.findOne({_id: req.user})
-  res.render('profile')
+  User.findOne((err, user) => {
+    if(!err) {
+      console.log(user);
+      res.render('profile', {
+        user: user
+      });
+    } else {
+      console.log(err);
+    }
+  })
 });
 
 /* GET profile logout. */
