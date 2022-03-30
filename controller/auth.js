@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
 const User = require('../model/User');
 // const verify = require('./verifyToken');
 const { registerValidation, loginValidation } = require('../validation/validation');
@@ -52,4 +53,62 @@ exports.register = async (req, res) => {
     } catch (err) {
         console.log(err);
     }
+}
+
+exports.login = async (req, res) => {
+    try {
+
+        // Checks for the validation.
+        const { error } = loginValidation(req.body);
+        if (error) {
+            return res.render('login', {
+                title: 'Library MS | Login',
+                error: error.details[0].message
+            })
+        }
+
+        // Check if email exists in DB.
+        const user = await User.findOne({ email: req.body.email });
+        if (!user) {
+            return res.render('login', {
+                title: 'Library MS | Login',
+                message: 'Email is not registered.'
+            })
+        }
+
+        // Check if password is correct.
+        const validPassword = await bcrypt.compare(req.body.password, user.password)
+        if (!validPassword) {
+            return res.render('login', {
+                title: 'Library MS | Login',
+                passMessage: 'Inavlid Password or Email.'
+            })
+        }
+
+        const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRES_IN
+        });
+        
+        console.log("The token is -- "+token);
+
+        const cookieOptions = {
+            expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 1000),
+            httpOnly: true
+        }
+
+        res.cookie('jwt', token, cookieOptions);
+        res.status(200).redirect('/users/profile');
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+exports.logout = async (req, res) => {
+    res.cookie('jwt', 'logout', {
+        expires: new Date(Date.now() + 2 * 1000),
+        httpOnly: true
+    });
+    res.status(200).redirect('/');
 }
