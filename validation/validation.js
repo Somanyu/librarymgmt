@@ -16,12 +16,12 @@ const registerValidation = (data) => {
                 .required()
                 .email(),
         password: Joi.string()
+                .regex(/^[a-zA-Z0-9]{8,30}$/)
                 .min(8)
-                .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
                 .required(),
         confirmPassword: Joi.string()
+                .regex(/^[a-zA-Z0-9]{8,30}$/)
                 .min(8)
-                .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
                 .required()
       });
       return schema.validate(data);
