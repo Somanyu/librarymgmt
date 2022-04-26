@@ -48,5 +48,18 @@ const loginValidation = (data) => {
     return schemaLogin.validate(data);
 };
 
+const categoryValidation = (data) => {
+        const schema = Joi.object({
+                categoryId: Joi.number()
+                        .min(1)
+                        .required(),
+                categoryName: Joi.string()
+                        .min(5)
+                        .required()
+          });
+          return schema.validate(data);
+    };
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
+module.exports.categoryValidation = categoryValidation;
