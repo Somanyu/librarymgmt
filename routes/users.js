@@ -1,31 +1,14 @@
 var express = require('express');
+const jwt = require('jsonwebtoken');
 const User = require('../model/User');
-const verify = require('./verifyToken');
-const authController = require('../controller/auth');
+const { requireAuth, checkUser } = require('../middleware/authMiddleware');
 var router = express.Router();
 
-
-/* POST /api/register listing. */
-router.post('/api/register', authController.register);
-
-/* POST /api/login listing. */
-router.post('/api/login', authController.login);
+router.get('*', checkUser);
 
 /* GET profile after logged in. */
-router.get('/profile', verify, (req, res) => {
-  User.findOne((err, user) => {
-    if(!err) {
-      console.log(user);
-      res.render('profile', {
-        user: user
-      });
-    } else {
-      console.log(err);
-    }
-  })
+router.get('/profile', requireAuth, (req, res) => {
+  res.render('profile')
 });
-
-/* GET profile logout. */
-router.get('/logout', authController.logout);
 
 module.exports = router;
