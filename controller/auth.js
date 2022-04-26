@@ -1,9 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { promisify } = require('util');
 const User = require('../model/User');
-// const verify = require('./verifyToken');
 const { registerValidation, loginValidation } = require('../validation/validation');
+
 
 exports.register = async (req, res) => {
 
@@ -55,6 +54,14 @@ exports.register = async (req, res) => {
     }
 }
 
+// Create JWT for login
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: maxAge
+  });
+};
+
 exports.login = async (req, res) => {
     try {
 
@@ -85,30 +92,27 @@ exports.login = async (req, res) => {
             })
         }
 
-        const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_EXPIRES_IN
-        });
-        
-        console.log("The token is -- "+token);
-
-        const cookieOptions = {
-            expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 1000),
-            httpOnly: true
-        }
-
-        res.cookie('jwt', token, cookieOptions);
+        // const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {
+        //     expiresIn: process.env.JWT_EXPIRES_IN
+        // });
+        // console.log("The token is -- "+token);
+        // const cookieOptions = {
+        //     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 1000),
+        //     httpOnly: true
+        // }
+        // res.cookie('jwt', token, cookieOptions);
+        // res.status(200).redirect('/users/profile');
+        const token = createToken(user._id);
+        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
         res.status(200).redirect('/users/profile');
+        // res.status(200).json({ user: user._id });
 
     } catch (error) {
         console.log(error);
     }
 }
 
-
-exports.logout = async (req, res) => {
-    res.cookie('jwt', 'logout', {
-        expires: new Date(Date.now() + 2 * 1000),
-        httpOnly: true
-    });
-    res.status(200).redirect('/');
-}
+exports.logout = (req, res) => {
+    res.cookie('jwt', '', { maxAge: 1 });
+    res.redirect('/');
+  }
