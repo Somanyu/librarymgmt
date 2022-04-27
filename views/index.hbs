@@ -6,10 +6,17 @@
                     <li class="nav-item rightNav" style="padding-right: 5px;padding-left: 5px;"><a class="nav-link" href="#">About</a></li>
                     <li class="nav-item rightNav" style="padding-right: 5px;"><a class="nav-link" href="#">Contact</a></li>
                 </ul>
+                {{#if user}}
                 <ul class="navbar-nav" style="font-family: Roboto, sans-serif;">
-                    <li class="nav-item" style="text-align: center;border-width: 1.7px;border-style: solid;border-radius: 5px;margin-right: 5px;margin-bottom: 5px;"><a class="nav-link" href="/login" style="color: #565959;text-align: center;border-width: 2px;padding-right: 15px;padding-left: 15px;padding-top: 8px;">Sign in</a></li>
-                    <li class="nav-item" style="text-align: center;border-radius: 5px;background: #0051ba;margin-bottom: 5px;margin-right: 5px;"><a class="nav-link" href="/register" style="color: #ffffff;text-align: center;padding-right: 15px;padding-left: 15px;">Register</a></li>
+                    <li class="nav-item" style="text-align: center;border-radius: 5px;margin-right: 5px;margin-bottom: 5px;border-width: 1.7px;border-style: none;"><a class="nav-link" href="/users/profile" style="color: #0094ff;">{{user.firstName}}</a></li>
+                    <li class="nav-item" style="text-align: center;border-radius: 5px;margin-right: 5px;margin-bottom: 5px;border-width: 1.7px;border-style: none;"><a class="btn btn-primary" href="/auth/logout" role="button" style="font-family: Roboto, sans-serif;background: #e5053a;font-size: 18px;letter-spacing: .4px;border-style: none;">Logout</a></li>
                 </ul>
+                {{else}}
+                <ul class="navbar-nav" style="font-family: Roboto, sans-serif;">
+                    <li class="nav-item" style="text-align: center;border-radius: 5px;margin-right: 5px;margin-bottom: 5px;border-width: 1.7px;border-style: none;"><a href="/login" class="btn btn-primary" role="button" style="font-family: Roboto, sans-serif;font-size: 18px;letter-spacing: .4px;background: #eef4f7;color: #000000;border: 2px solid #0051ba;">Signin</a></li>
+                    <li class="nav-item" style="text-align: center;border-radius: 5px;margin-right: 5px;margin-bottom: 5px;border-width: 1.7px;border-style: none;"><a href="/register" class="btn btn-primary" role="button" style="font-family: Roboto, sans-serif;background: #0051ba;font-size: 18px;letter-spacing: .4px;">Register</a></li>
+                </ul>
+                {{/if}}
             </div>
         </div>
     </nav>
