@@ -1,2 +1,37 @@
-<h1>Profile Page {{user.firstName}} {{user.lastName}}</h1>
+
+{{!-- <div class="container" style="padding-top: 5rem;">
+    <div class="row">
+        <div class="col-md-2 offset-md-3 text-center" style="text-align: center;"><img class="img-fluid" src="/images/casual-life-3d-22.png" width="150" height="150" /></div>
+        <div class="col-md-5 offset-md-0 d-md-flex align-items-md-center">
+            <div style="text-align: center;">
+                <div>
+                    <h1 class="fw-bold" style="font-family: Poppins, sans-serif;">Hi, {{user.firstName}}</h1>
+                </div>
+                <div>
+                    <p style="font-family: Lato, sans-serif;letter-spacing: .7px;">This page is under construction.</p>
+                </div><a href="/" class="btn btn-primary btn-sm" role="button" style="font-family: Roboto, sans-serif;background: #0051ba;font-size: 18px;letter-spacing: .4px;margin-top: 10px;">Go Home</a>
+            </div>
+        </div>
+    </div>
 <a href="/auth/logout">Logout</a>
+<a href="/users/library">Library</a>
+</div> --}}
+
+
+<div class="container" style="padding-top: 5rem;">
+    <div class="row">
+        <div class="col-md-2 offset-md-3 text-center" style="text-align: center;"><img class="img-fluid" src="/images/casual-life-3d-22.png" width="150" height="150" /></div>
+        <div class="col-md-5 offset-md-0 d-md-flex align-items-md-center">
+            <div style="text-align: center;">
+                <div>
+                    <h1 class="fw-bold" style="font-family: Poppins, sans-serif;">Hi, {{user.firstName}}</h1>
+                </div>
+                <div>
+                    <p style="font-family: Lato, sans-serif;letter-spacing: .7px;">This page is under construction.</p>
+                </div>
+                    <a href="/users/library" class="btn btn-primary btn-sm" role="button" style="font-family: Roboto, sans-serif;background: #0051ba;font-size: 18px;letter-spacing: .4px;margin-top: 10px;margin-right: 2px;border-style: none;">Library</a>
+                    <a  href="/auth/logout" class="btn btn-primary btn-sm" role="button" style="font-family: Roboto, sans-serif;background: #e5053a;font-size: 18px;letter-spacing: .4px;margin-top: 10px;margin-left: 2px;border-style: none;">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
