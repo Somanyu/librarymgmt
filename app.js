@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 dotenv.config({ path: './.env' });
 
@@ -13,6 +15,15 @@ const usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 
 const app = express();
+
+// Create Session for middleware
+app.use(session({
+  secret: 'secret key',
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(flash());
 
 // MongoDB connection setup
 mongoose.connect(process.env.MONGODB_CONNECT,
