@@ -18,7 +18,8 @@ router.get('/library', requireAuth, (req, res) => {
   Category.find(function (err, content) {
     if (content) {
       res.render('books', {
-        contents: content
+        contents: content,
+        message: req.flash('message')
       });
     } else {
       console.log(err);
@@ -34,26 +35,22 @@ router.post('/category', requireAuth, async (req, res) => {
   // Checks for the category validation.
   const { error } = categoryValidation(req.body);
   if (error) {
-    res.render('books', {
-      title: 'Library Books',
-      error: error.details[0].message,
-    });
+    req.flash('message', error.details[0].message);
+    res.redirect('/users/library');
   }
 
   // Check if categoryId exists in DB.
   const categoryIdExist = await Category.findOne({ categoryId: categoryId });
   if (categoryIdExist) {
-    res.render('books', {
-      title: 'Library Books',
-      bookError: 'Book with this Category already exists.'
-    })
+    req.flash('message', 'Book with this Category already exists.');
+    res.redirect('/users/library');
   } else {
 
     const category = new Category({
       categoryId: categoryId,
       categoryName: categoryName
     });
-  
+
     try {
       const savedCategory = await category.save();
       // res.send({ categoryId: category._id, categoryId: category.categoryId, categoryName: category.categoryName });
