@@ -60,6 +60,19 @@ const categoryValidation = (data) => {
           return schema.validate(data);
     };
 
+const publicationValidation = (data) => {
+        const schema = Joi.object({
+                publicationId: Joi.number()
+                        .min(1)
+                        .required(),
+                publicationName: Joi.string()
+                        .min(3)
+                        .required()
+        });
+        return schema.validate(data);
+}
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.categoryValidation = categoryValidation;
+module.exports.publicationValidation = publicationValidation;
