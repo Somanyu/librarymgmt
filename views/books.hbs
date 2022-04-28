@@ -18,16 +18,15 @@
 {{/each}} 
  --}}
 
-<nav class="navbar navbar-light navbar-expand-md">
-    <div class="container-fluid"><a class="navbar-brand d-md-flex justify-content-md-center align-items-md-center" href="#" style="font-family: Poppins, sans-serif;"><img class="img-fluid" src="/images/casual-life-3d-avatar-with-man-in-green-shirt-and-orange-hat.png" width="50" height="50" />
-            <h6 style="margin-bottom: 0px;margin-left: 8px;">Hi, {{user.firstName}}</h6>
-        </a><button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-        <div id="navcol-1" class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link active" href="#" style="font-family: Poppins, sans-serif;">Books</a></li>
-                <li class="nav-item"><a class="nav-link active" href="/users/profile" style="font-family: Poppins, sans-serif;">Profile</a></li>
-                <li class="nav-item"><a class="nav-link active" href="/auth/logout" style="font-family: Poppins, sans-serif;color: rgb(229,5,58);">Logout</a></li>
-            </ul>
+
+<nav class="navbar navbar-light navbar-expand-md py-3">
+    <div class="container"><a class="navbar-brand d-flex align-items-center" href="/users/profile"><span class="bs-icon-sm d-flex justify-content-center align-items-center me-2 bs-icon"><img class="img-fluid" src="/images/casual-life-3d-avatar-with-man-in-green-shirt-and-orange-hat.png" /></span><span style="font-family: Poppins, sans-serif;">Hi, {{user.firstName}}</span></a><button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-3"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div id="navcol-3" class="collapse navbar-collapse">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link active" href="#" style="font-family: Lato, sans-serif;">Books</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#" style="font-family: Lato, sans-serif;">Publications</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#" style="font-family: Lato, sans-serif;">Categories</a></li>
+            </ul><a href="/auth/logout" class="btn btn-primary btn-sm" role="button" style="font-family: Roboto, sans-serif;background: #e5053a;font-size: 17px;letter-spacing: .4px;border-style: none;">Logout</a>
         </div>
     </div>
 </nav>
@@ -47,16 +46,17 @@
                 <p style="margin-top: 1rem;margin-bottom: .7rem;">Add Category for the books.</p>
                 <form action="/users/category" method="post" style="margin-top: 0rem;">
                     <div class="d-md-flex align-items-md-center"><input class="form-control" type="number" name="categoryId" placeholder="Category ID" style="font-family: Lato, sans-serif;border-top-right-radius: 0px;border-bottom-right-radius: 0px;" /><input class="form-control" type="text" name="categoryName" placeholder="Category Name" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;border-top-right-radius: 0px;border-bottom-right-radius: 0px;" /><button class="btn btn-primary" type="submit" style="font-family: Poppins, sans-serif;background: #0051ad;border-top-left-radius: 0px;border-bottom-left-radius: 0px;">Add</button></div>
-                    <div class="text-center d-md-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center">
                     {{#if message }}
                     <p style="color: #d30547;font-family: Lato, sans-serif;font-size: 16px;"><i class="icon-close" style="font-weight: bold;font-size: 17px;"></i>  {{message}}</p>
                     {{/if}}
+                    <div class="text-center d-md-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center">
                         <div class="table-responsive text-center" style="margin-top: 1.2rem;width: 330px;">
                             <table class="table table-sm table-bordered">
                                 <thead style="border-style: none;font-family: Lato, sans-serif;">
                                     <tr>
                                         <th>Category ID</th>
                                         <th>Category Name</th>
+                                        <th>No. of Books</th>
                                     </tr>
                                 </thead>
                                 <tbody style="font-family: Roboto, sans-serif;">
@@ -64,6 +64,7 @@
                                     <tr>
                                         <td>{{ this.categoryId }}</td>
                                         <td>{{ this.categoryName }}</td>
+                                        <td>6</td>
                                     </tr>
                                     {{/each}}
                                 </tbody>
