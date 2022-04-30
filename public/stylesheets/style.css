@@ -308,3 +308,15 @@ a {
   opacity: 1;
   text-decoration: none;
 }
+
+.form-label {
+  font-family: 'Lato' sans-serif;
+}
+
+.form-control {
+  font-family: 'Roboto', sans-serif;
+}
+
+.fit-cover {
+  object-fit: cover;
+}
