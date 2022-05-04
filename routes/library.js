@@ -3,6 +3,7 @@ const { requireAuth, checkUser } = require('../middleware/authMiddleware');
 const { categoryValidation, publicationValidation } = require('../validation/validation');
 const Category = require('../model/Category');
 const Publication = require('../model/Publication');
+const Book = require('../model/Book');
 var router = express.Router();
 
 router.get('*', checkUser);
@@ -35,7 +36,7 @@ router.post('/category', requireAuth, async (req, res) => {
     }
 
     // Check if categoryId and categoryName exists in DB.
-    const categoryIdExist = await Category.findOne({ categoryId: categoryId, categoryName: categoryName });
+    const categoryIdExist = await Category.findOne({ categoryId: categoryId });
     const categoryNameExist = await Category.findOne({ categoryName: categoryName });
     if (categoryIdExist) {
         req.flash('message', 'Book with this Category already exists.');
@@ -92,7 +93,7 @@ router.post('/publication', requireAuth, async (req, res) => {
     }
 
     // Check if publicationId and publicationName exists in DB.
-    const publicationIdExist = await Publication.findOne({ publicationId: publicationId, publicationName: publicationName });
+    const publicationIdExist = await Publication.findOne({ publicationId: publicationId });
     const publicationNameExist = await Publication.findOne({ publicationName: publicationName });
     if (publicationIdExist) {
         req.flash('message', 'Book with this publication already exists.');
@@ -110,8 +111,6 @@ router.post('/publication', requireAuth, async (req, res) => {
 
         try {
             const savedPublication = await publication.save();
-            // res.send({ categoryId: category._id, categoryId: category.categoryId, categoryName: category.categoryName });
-            // res.render('profile');
             res.redirect('/library/publication');
         } catch (error) {
             console.log(error);
@@ -119,5 +118,69 @@ router.post('/publication', requireAuth, async (req, res) => {
     }
 
 });
+
+/* GET Book details after logged in. */
+router.get('/books', requireAuth, (req, res) => {
+    Promise.all([Category.find(), Publication.find(), Book.find().populate('publicationId').populate('categoryId')]).then(([catResult, pubResult, bookResult]) => {
+        // Retrieving data as catResult and pubResult
+        res.render('books', {
+            title: 'Library | Books',
+            catResult: catResult,
+            pubResult: pubResult,
+            bookResult: bookResult
+        });
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+});
+
+/* POST Book details after logged in. */
+router.post('/books', requireAuth, async (req, res) => {
+
+    const ISBN = req.body.ISBN;
+    const bookTitle = req.body.bookTitle;
+    const publicationYear = req.body.publicationYear;
+    const categoryId = req.body.categoryId;
+    const language = req.body.language;
+    const publicationId = req.body.publicationId;
+    const noCopies = req.body.noCopies;
+    const currentCopies = req.body.currentCopies;
+    const bookInfo = req.body.bookInfo;
+
+    console.log("ISBN: " + ISBN);
+    console.log("Book Title: " + bookTitle)
+    console.log("Publication Year: " + publicationYear)
+    console.log("Category: " + categoryId)
+    console.log("Language: " + language)
+    console.log("Publication: " + publicationId)
+    console.log("Number of Copies: " + noCopies)
+    console.log("Current Copies: " + currentCopies)
+    console.log("Book Info: " + bookInfo);
+
+    const book = new Book({
+        ISBN: ISBN,
+        bookTitle: bookTitle,
+        publicationYear: publicationYear,
+        categoryId: categoryId,
+        language: language,
+        publicationId: publicationId,
+        noCopies: noCopies,
+        currentCopies: currentCopies,
+        bookInfo: bookInfo,
+    });
+
+    book.publicationId = publicationId._id;
+    book.categoryId = categoryId._id;
+
+    try {
+        const savedBook = await book.save();
+        res.redirect('/library/books');
+    } catch (error) {
+        console.log(error);
+    }
+
+
+})
 
 module.exports = router;
