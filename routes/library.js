@@ -5,6 +5,7 @@ const Category = require('../model/Category');
 const Publication = require('../model/Publication');
 const Book = require('../model/Book');
 var router = express.Router();
+const mongoose = require('mongoose');
 
 router.get('*', checkUser);
 
@@ -148,33 +149,36 @@ router.post('/books', requireAuth, async (req, res) => {
     const currentCopies = req.body.currentCopies;
     const bookInfo = req.body.bookInfo;
 
+    const catId = await Category.findOne({ categoryId: categoryId });
+    const pubId = await Publication.findOne({ publicationId: publicationId });
+
     console.log("ISBN: " + ISBN);
     console.log("Book Title: " + bookTitle)
     console.log("Publication Year: " + publicationYear)
-    console.log("Category: " + categoryId)
+    console.log("Category: " + catId.categoryName)
     console.log("Language: " + language)
-    console.log("Publication: " + publicationId)
+    console.log("Publication: " + pubId.publicationName)
     console.log("Number of Copies: " + noCopies)
     console.log("Current Copies: " + currentCopies)
     console.log("Book Info: " + bookInfo);
+
 
     const book = new Book({
         ISBN: ISBN,
         bookTitle: bookTitle,
         publicationYear: publicationYear,
-        categoryId: categoryId,
+        categoryId: catId._id,
         language: language,
-        publicationId: publicationId,
+        publicationId: pubId._id,
         noCopies: noCopies,
         currentCopies: currentCopies,
         bookInfo: bookInfo,
     });
 
-    book.publicationId = publicationId._id;
-    book.categoryId = categoryId._id;
 
     try {
         const savedBook = await book.save();
+        console.log(savedBook);
         res.redirect('/library/books');
     } catch (error) {
         console.log(error);
