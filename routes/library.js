@@ -155,14 +155,14 @@ router.post('/books', requireAuth, async (req, res) => {
     console.log("ISBN: " + ISBN);
     console.log("Book Title: " + bookTitle)
     console.log("Publication Year: " + publicationYear)
-    console.log("Category: " + catId.categoryName)
+    console.log("Category: " + catId._id)
     console.log("Language: " + language)
-    console.log("Publication: " + pubId.publicationName)
+    console.log("Publication: " + pubId._id)
     console.log("Number of Copies: " + noCopies)
     console.log("Current Copies: " + currentCopies)
     console.log("Book Info: " + bookInfo);
 
-
+    
     const book = new Book({
         ISBN: ISBN,
         bookTitle: bookTitle,
