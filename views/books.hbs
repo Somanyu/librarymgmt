@@ -1,0 +1,100 @@
+<nav class="navbar navbar-light navbar-expand-md py-3">
+    <div class="container"><a class="navbar-brand d-flex align-items-center" href="/users/profile"><span class="bs-icon-sm d-flex justify-content-center align-items-center me-2 bs-icon"><img class="img-fluid" src="/images/casual-life-3d-avatar-with-man-in-green-shirt-and-orange-hat.png" /></span><span style="font-family: Poppins, sans-serif;">Hi, {{user.firstName}}</span></a><button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-3"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div id="navcol-3" class="collapse navbar-collapse">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link active" href="/library/books" style="font-family: Lato, sans-serif;color: #053cd3;font-weight: bold">Books</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/library/publication" style="font-family: Lato, sans-serif;">Publications</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/library/category" style="font-family: Lato, sans-serif;">Categories</a></li>
+            </ul><a href="/auth/logout" class="btn btn-primary btn-sm" role="button" style="font-family: Roboto, sans-serif;background: #e5053a;font-size: 17px;letter-spacing: .4px;border-style: none;">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="margin-top: 2rem;">
+    <div class="row">
+        <div class="col-md-12 col-lg-8 offset-lg-2" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;;border-radius: 3px;background: rgb(255, 255, 255)">
+            <h1 style="margin-top: 10px;text-align: center;font-family: Lato, sans-serif;">Add a book.</h1>
+            <form action="/library/books" method="post" style="margin-top: 1.2rem;margin-bottom: 1.2rem;">
+                <div class="row">
+                    <div class="col-sm-6 col-md-5 offset-md-1">
+                        <div class="form-group mb-3"><label class="form-label" style="font-family: Lato, sans-serif;">ISBN No.</label><input class="form-control" type="text" placeholder="Enter ISBN Number" style="font-family: Roboto, sans-serif;" name="ISBN" /></div>
+                    </div>
+                    <div class="col-sm-6 col-md-5 offset-md-0">
+                        <div class="form-group mb-3"><label class="form-label" style="font-family: Lato, sans-serif;">Book Title</label><input class="form-control" type="text" placeholder="Enter Book Title" style="font-family: Roboto, sans-serif;" name="bookTitle" /></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-2 col-lg-3 offset-md-1">
+                        <div class="form-group mb-3"><label class="form-label">Publication Year</label><input class="form-control" type="number" name="publicationYear" placeholder="Year of Publication" style="font-family: Roboto, sans-serif;" /></div>
+                    </div>
+                    <div class="col-sm-4 col-md-2 offset-md-2 offset-lg-0">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" style="font-family: Roboto, sans-serif;" name="categoryId">
+                                <option value="12" selected>Select a Category</option>
+                                {{#each catResult}}
+                                <option value="{{ this.categoryId }}">{{ this.categoryName }}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-2 col-lg-3 offset-md-1 offset-lg-0">
+                        <div class="form-group mb-3"><label class="form-label">Language</label><input class="form-control" type="text" name="language" placeholder="Book&#39;s Language" style="font-family: Roboto, sans-serif;" /></div>
+                    </div>
+                    <div class="col-sm-4 col-md-2 offset-md-2 offset-lg-0">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Publisher</label>
+                            <select class="form-select" style="font-family: Roboto, sans-serif;" name="publicationId">
+                                <option value="12" selected>Select a Publisher</option>
+                                {{#each pubResult}}
+                                <option value="{{ this.publicationId }}">{{ this.publicationName }}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-5 offset-md-1">
+                        <div class="form-group mb-3"><label class="form-label" style="font-family: Lato, sans-serif;">Copies of Book</label><input class="form-control" type="number" placeholder="Number of Copies" style="font-family: Roboto, sans-serif;" name="noCopies" /></div>
+                    </div>
+                    <div class="col-sm-6 col-md-5 offset-md-0">
+                        <div class="form-group mb-3"><label class="form-label" style="font-family: Lato, sans-serif;">Copies Present</label><input class="form-control" type="number" placeholder="Number of Copies Present" style="font-family: Roboto, sans-serif;" name="currentCopies" /></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-lg-10 offset-lg-1">
+                        <div class="form-group mb-3"><label class="form-label">About the Book</label><textarea class="form-control" name="bookInfo" placeholder="Write some information about the book."></textarea></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6 offset-lg-3 d-grid"><button class="btn btn-primary" type="submit" style="font-family: Poppins, sans-serif;background: #0a6dde;">Add Book</button></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;"><a href="#bookSection" style="font-family: Roboto, sans-serif;">See Available Books </a></div>
+</div>
+
+
+<div id="bookSection" class="container py-4 py-xl-5">
+    <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
+        {{#each bookResult}}
+        <div class="col-lg-5">
+            <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png" />
+                <div class="card-body p-4">
+                    <p class="text-primary card-text mb-0" style="font-family: Poppins, sans-serif;">{{this._id}}</p>
+                    <h4 class="card-title" style="font-family: Roboto, sans-serif;">{{this.bookTitle}}</h4>
+                    <p class="card-text" style="font-family: Lato, sans-serif;">{{this.bookInfo}}</p>
+                    <div class="d-flex">
+                        <div>
+                            <p class="fw-bold mb-0" style="font-family: Poppins, sans-serif;">{{this._id}}</p>
+                            <p class="text-muted mb-0" style="font-family: Lato, sans-serif;">{{this.publicationYear}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+</div>
