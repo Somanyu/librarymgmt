@@ -5,7 +5,7 @@ const bookSchema = new mongoose.Schema({
         type: Number,
         required: true,
         min: 5,
-        max: 100000000
+        max: 100000000000
     },
     bookTitle: {
         type: String,
