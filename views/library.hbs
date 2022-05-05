@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-md-12 col-lg-8 offset-lg-2" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;;border-radius: 3px;background: rgb(255, 255, 255)">
             <h1 style="margin-top: 10px;text-align: center;font-family: Lato, sans-serif;">Add a book.</h1>
-            <form action="/library/books" method="post" style="margin-top: 1.2rem;margin-bottom: 1.2rem;">
+            <form action="/library/books" method="post" enctype="multipart/form-data" style="margin-top: 1.2rem;margin-bottom: 1.2rem;">
                 <div class="row">
                     <div class="col-sm-6 col-md-5 offset-md-1">
                         <div class="form-group mb-3"><label class="form-label" style="font-family: Lato, sans-serif;">ISBN No.</label><input class="form-control" type="text" placeholder="Enter ISBN Number" style="font-family: Roboto, sans-serif;" name="ISBN" /></div>
@@ -62,8 +62,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 col-lg-10 offset-lg-1">
+                    <div class="col-sm-6 col-md-5 offset-md-1">
                         <div class="form-group mb-3"><label class="form-label">About the Book</label><textarea class="form-control" name="bookInfo" placeholder="Write some information about the book."></textarea></div>
+                    </div>
+                    <div class="col-sm-6 col-md-5 offset-md-0">
+                        <div class="form-group mb-3"><label class="form-label">Upload Image</label><input type="file" name="bookImage" class="form-control"></div>
                     </div>
                 </div>
                 <div class="row">
@@ -80,7 +83,7 @@
     <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
         {{#each bookResult}}
         <div class="col-lg-5">
-            <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png" />
+            <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="/uploads/books/{{this.bookImage}}" />
                 <div class="card-body p-4">
                     <span class="badge rounded-pill bg-primary" style="background: rgb(18,13,240);font-family: Lato, sans-serif;margin-bottom: 4px;">{{this.categoryId.categoryName}}</span>
                     <h4 class="card-title" style="font-family: Roboto, sans-serif;"><a href="/library/books/{{this._id}}">{{this.bookTitle}}</a></h4>
