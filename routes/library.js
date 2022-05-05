@@ -126,7 +126,7 @@ router.get('/books', requireAuth, (req, res) => {
         // Retrieving data as catResult and pubResult
         console.log(bookResult);
         console.log(catResult);
-        res.render('books', {
+        res.render('library', {
             title: 'Library | Books',
             catResult: catResult,
             pubResult: pubResult,
