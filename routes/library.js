@@ -6,6 +6,7 @@ const Publication = require('../model/Publication');
 const Book = require('../model/Book');
 var router = express.Router();
 const mongoose = require('mongoose');
+const multer = require('multer')
 
 router.get('*', checkUser);
 
@@ -138,8 +139,29 @@ router.get('/books', requireAuth, (req, res) => {
     })
 });
 
+
+// Define storage for images.
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './public/uploads/books');
+    },
+
+    // Add file extension to the uploaded image.
+    filename: function (req, file, callback) {
+        callback(null, Date.now() + file.originalname);
+    },
+});
+
+// Parameters for multer
+const upload = multer({
+    storage: storage,
+    limits: {
+        fieldSize: 1024 * 1024 * 3,
+    },
+});
+
 /* POST Book details after logged in. */
-router.post('/books', requireAuth, async (req, res) => {
+router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) => {
 
     const ISBN = req.body.ISBN;
     const bookTitle = req.body.bookTitle;
@@ -150,6 +172,7 @@ router.post('/books', requireAuth, async (req, res) => {
     const noCopies = req.body.noCopies;
     const currentCopies = req.body.currentCopies;
     const bookInfo = req.body.bookInfo;
+    const bookImage = req.file.filename;
 
     const catId = await Category.findOne({ categoryId: categoryId });
     const pubId = await Publication.findOne({ publicationId: publicationId });
@@ -175,6 +198,7 @@ router.post('/books', requireAuth, async (req, res) => {
         noCopies: noCopies,
         currentCopies: currentCopies,
         bookInfo: bookInfo,
+        bookImage: bookImage
     });
 
 
