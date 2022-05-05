@@ -164,7 +164,7 @@ router.post('/books', requireAuth, async (req, res) => {
     // console.log("Current Copies: " + currentCopies)
     // console.log("Book Info: " + bookInfo);
 
-    
+
     const book = new Book({
         ISBN: ISBN,
         bookTitle: bookTitle,
@@ -188,5 +188,15 @@ router.post('/books', requireAuth, async (req, res) => {
 
 
 })
+
+/* GET each book details after logged in. */
+router.get('/books/:id', requireAuth, async (req, res) => {
+    const bookDetails = await Book.findById(req.params.id).populate('publicationId').populate('categoryId')
+    console.log(bookDetails);
+    res.render('book', {
+        bookDetails: bookDetails
+    })
+})
+
 
 module.exports = router;
