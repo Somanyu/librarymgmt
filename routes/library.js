@@ -218,7 +218,8 @@ router.get('/books/:id', requireAuth, async (req, res) => {
     const bookDetails = await Book.findById(req.params.id).populate('publicationId').populate('categoryId')
     console.log(bookDetails);
     res.render('book', {
-        bookDetails: bookDetails
+        bookDetails: bookDetails,
+        title: bookDetails.bookTitle
     })
 })
 
