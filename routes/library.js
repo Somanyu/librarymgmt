@@ -125,6 +125,7 @@ router.get('/books', requireAuth, (req, res) => {
     Promise.all([Category.find(), Publication.find(), Book.find().populate('publicationId').populate('categoryId')]).then(([catResult, pubResult, bookResult]) => {
         // Retrieving data as catResult and pubResult
         console.log(bookResult);
+        console.log(catResult);
         res.render('books', {
             title: 'Library | Books',
             catResult: catResult,
