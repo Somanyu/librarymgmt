@@ -55,35 +55,6 @@ const loginValidation = (data) => {
     return schemaLogin.validate(data);
 };
 
-const categoryValidation = (data) => {
-        const schema = Joi.object({
-                categoryId: Joi.number()
-                        .min(1)
-                        .required()
-                        .label("Category ID"),
-                categoryName: Joi.string()
-                        .min(5)
-                        .required()
-                        .label("Category Name")
-          });
-          return schema.validate(data);
-    };
-
-const publicationValidation = (data) => {
-        const schema = Joi.object({
-                publicationId: Joi.number()
-                        .min(1)
-                        .required()
-                        .label("Publication ID"),
-                publicationName: Joi.string()
-                        .min(3)
-                        .required()
-                        .label("Publication Name")
-        });
-        return schema.validate(data);
-}
 
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
-module.exports.categoryValidation = categoryValidation;
-module.exports.publicationValidation = publicationValidation;
