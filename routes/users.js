@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../model/User');
 const Category = require('../model/Category');
 const { requireAuth, checkUser } = require('../middleware/authMiddleware');
-const { categoryValidation } = require('../validation/validation');
+const { categoryValidation } = require('../validation/userValidation');
 var router = express.Router();
 
 router.get('*', checkUser);
