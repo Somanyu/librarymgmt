@@ -1,6 +1,6 @@
 var express = require('express');
 const { requireAuth, checkUser } = require('../middleware/authMiddleware');
-const { categoryValidation, publicationValidation } = require('../validation/userValidation');
+const { categoryValidation, publicationValidation } = require('../validation/libraryValidation');
 const Category = require('../model/Category');
 const Publication = require('../model/Publication');
 const Book = require('../model/Book');
