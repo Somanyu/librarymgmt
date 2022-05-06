@@ -7,8 +7,8 @@
   <a href="https://github.com/Somanyu/librarymgmt" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
-  <a href="https://twitter.com/vadaa\_pav" target="_blank">
-    <img alt="Twitter: vadaa\_pav" src="https://img.shields.io/twitter/follow/vadaa\_pav.svg?style=social" />
+  <a href="https://twitter.com/vadaa_pav" target="_blank">
+    <img alt="Twitter: vadaa\_pav" src="https://img.shields.io/twitter/follow/vadaa_pav.svg?style=social" />
   </a>
 </p>
 
