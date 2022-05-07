@@ -7,6 +7,7 @@
   <a href="https://github.com/Somanyu/librarymgmt" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
+  <img alt="GitHub Workflow Status (event)" src="https://img.shields.io/github/workflow/status/Somanyu/librarymgmt/Build%20and%20deploy%20Node.js%20app%20to%20Azure%20Web%20App%20-%20librarymgmt">
   <a href="https://twitter.com/vadaa_pav" target="_blank">
     <img alt="Twitter: vadaa\_pav" src="https://img.shields.io/twitter/follow/vadaa_pav.svg?style=social" />
   </a>
