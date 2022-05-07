@@ -19,7 +19,7 @@ const app = express();
 
 // Create Session for middleware
 app.use(session({
-  secret: 'secret key',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }));
