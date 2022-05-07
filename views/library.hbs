@@ -10,7 +10,34 @@
     </div>
 </nav>
 
-<div class="container" style="margin-top: 2rem;">
+<div class="text-center" style="margin-top: 2rem;margin-bottom: 2rem;"><a class="btn btn-primary btn-lg" href="#bookAdd" role="button" style="font-family: Roboto, sans-serif;background: #0051ad;font-size: 19px;letter-spacing: .4px;border-style: none;padding: 6px 20px;">Add Book  <i class="icon-plus" style="font-size: 20px;"></i></a></div>
+
+<h2 class="text-center" style="margin-top: 4rem;font-family: Roboto, sans-serif;">Books in Library</h2>
+
+<div id="bookSection" class="container py-4 py-xl-5">
+    <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
+        {{#each bookResult}}
+        <div class="col-lg-5">
+            <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="/uploads/books/{{this.bookImage}}" />
+                <div class="card-body p-4">
+                    <span class="badge rounded-pill bg-primary" style="background: rgb(18,13,240);font-family: Lato, sans-serif;margin-bottom: 4px;">{{this.categoryId.categoryName}}</span>
+                    <h4 class="card-title" style="font-family: Roboto, sans-serif;"><a href="/library/books/{{this._id}}">{{this.bookTitle}}</a></h4>
+                    <p class="card-text" style="font-family: Lato, sans-serif;">{{this.bookInfo}}</p>
+                    <div class="d-flex">
+                        <div>
+                            <p class="fw-bold mb-0" style="font-family: Poppins, sans-serif;">{{this.publicationId.publicationName}}</p>
+                            <p class="text-muted mb-0" style="font-family: Lato, sans-serif;">{{this.publicationYear}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+</div>
+
+<div id="bookAdd" class="container" style="margin-top: 2rem;margin-bottom: 3rem;">
     <div class="row">
         <div class="col-md-12 col-lg-8 offset-lg-2" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;;border-radius: 3px;background: rgb(255, 255, 255)">
             <h1 style="margin-top: 10px;text-align: center;font-family: Lato, sans-serif;">Add a book.</h1>
@@ -75,29 +102,7 @@
             </form>
         </div>
     </div>
-    <div style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;"><a href="#bookSection" style="font-family: Roboto, sans-serif;">See Available Books </a></div>
+    {{!-- <div style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;"><a href="#bookSection" style="font-family: Roboto, sans-serif;">See Available Books </a></div> --}}
 </div>
 
 
-<div id="bookSection" class="container py-4 py-xl-5">
-    <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
-        {{#each bookResult}}
-        <div class="col-lg-5">
-            <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="/uploads/books/{{this.bookImage}}" />
-                <div class="card-body p-4">
-                    <span class="badge rounded-pill bg-primary" style="background: rgb(18,13,240);font-family: Lato, sans-serif;margin-bottom: 4px;">{{this.categoryId.categoryName}}</span>
-                    <h4 class="card-title" style="font-family: Roboto, sans-serif;"><a href="/library/books/{{this._id}}">{{this.bookTitle}}</a></h4>
-                    <p class="card-text" style="font-family: Lato, sans-serif;">{{this.bookInfo}}</p>
-                    <div class="d-flex">
-                        <div>
-                            <p class="fw-bold mb-0" style="font-family: Poppins, sans-serif;">{{this.publicationId.publicationName}}</p>
-                            <p class="text-muted mb-0" style="font-family: Lato, sans-serif;">{{this.publicationYear}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{/each}}
-
-    </div>
-</div>
