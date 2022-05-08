@@ -13,6 +13,12 @@ const bookSchema = new mongoose.Schema({
         min: 12,
         max: 40
     },
+    author:{
+        type: String,
+        required: true,
+        min: 4,
+        max: 30
+    },
     language: {
         type: String,
         required: true,

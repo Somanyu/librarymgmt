@@ -166,6 +166,7 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
     const ISBN = req.body.ISBN;
     const bookTitle = req.body.bookTitle;
     const publicationYear = req.body.publicationYear;
+    const author = req.body.author
     const categoryId = req.body.categoryId;
     const language = req.body.language;
     const publicationId = req.body.publicationId;
@@ -191,6 +192,7 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
     const book = new Book({
         ISBN: ISBN,
         bookTitle: bookTitle,
+        author: author,
         publicationYear: publicationYear,
         categoryId: catId._id,
         language: language,
@@ -205,7 +207,7 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
     try {
         const savedBook = await book.save();
         console.log(savedBook);
-        res.redirect('/library/books');
+        res.redirect('/library/books#bookSection');
     } catch (error) {
         console.log(error);
     }
