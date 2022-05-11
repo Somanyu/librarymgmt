@@ -57,7 +57,7 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true,
         min: 20,
-        max: 150
+        max: 250
     },
     bookImage: {
         type: String,

@@ -1,6 +1,6 @@
 var express = require('express');
 const { requireAuth, checkUser } = require('../middleware/authMiddleware');
-const { categoryValidation, publicationValidation } = require('../validation/libraryValidation');
+const { categoryValidation, publicationValidation, bookValidation } = require('../validation/libraryValidation');
 const Category = require('../model/Category');
 const Publication = require('../model/Publication');
 const Book = require('../model/Book');
@@ -131,7 +131,8 @@ router.get('/books', requireAuth, (req, res) => {
             title: 'Library | Books',
             catResult: catResult,
             pubResult: pubResult,
-            bookResult: bookResult
+            bookResult: bookResult,
+            message: req.flash('message')
         });
     }).catch(err => {
         console.log(err);
@@ -175,43 +176,56 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
     const bookInfo = req.body.bookInfo;
     const bookImage = req.file.filename;
 
-    const catId = await Category.findOne({ categoryId: categoryId });
-    const pubId = await Publication.findOne({ publicationId: publicationId });
-
-    // console.log("ISBN: " + ISBN);
-    // console.log("Book Title: " + bookTitle)
-    // console.log("Publication Year: " + publicationYear)
-    // console.log("Category: " + catId._id)
-    // console.log("Language: " + language)
-    // console.log("Publication: " + pubId._id)
-    // console.log("Number of Copies: " + noCopies)
-    // console.log("Current Copies: " + currentCopies)
-    // console.log("Book Info: " + bookInfo);
-
-
-    const book = new Book({
-        ISBN: ISBN,
-        bookTitle: bookTitle,
-        author: author,
-        publicationYear: publicationYear,
-        categoryId: catId._id,
-        language: language,
-        publicationId: pubId._id,
-        noCopies: noCopies,
-        currentCopies: currentCopies,
-        bookInfo: bookInfo,
-        bookImage: bookImage
-    });
-
-
-    try {
-        const savedBook = await book.save();
-        console.log(savedBook);
-        res.redirect('/library/books#bookSection');
-    } catch (error) {
-        console.log(error);
+    const { error } = bookValidation(req.body);
+    if (error) {
+        req.flash('message', error.details[0].message);
+        res.redirect('/library/books')
     }
 
+    const bookExist = await Book.findOne({ ISBN: ISBN });
+    if (bookExist) {
+        req.flash('message', 'Book with this ISBN already exists.');
+        res.redirect('/library/books');
+    } else {
+
+        const catId = await Category.findOne({ categoryId: categoryId });
+        const pubId = await Publication.findOne({ publicationId: publicationId });
+    
+        // console.log("ISBN: " + ISBN);
+        // console.log("Book Title: " + bookTitle)
+        // console.log("Publication Year: " + publicationYear)
+        // console.log("Category: " + catId._id)
+        // console.log("Language: " + language)
+        // console.log("Publication: " + pubId._id)
+        // console.log("Number of Copies: " + noCopies)
+        // console.log("Current Copies: " + currentCopies)
+        // console.log("Book Info: " + bookInfo);
+    
+    
+        const book = new Book({
+            ISBN: ISBN,
+            bookTitle: bookTitle,
+            author: author,
+            publicationYear: publicationYear,
+            categoryId: catId._id,
+            language: language,
+            publicationId: pubId._id,
+            noCopies: noCopies,
+            currentCopies: currentCopies,
+            bookInfo: bookInfo,
+            bookImage: bookImage
+        });
+    
+    
+        try {
+            const savedBook = await book.save();
+            console.log(savedBook);
+            res.redirect('/library/books#bookSection');
+        } catch (error) {
+            console.log(error);
+        }
+        
+    }
 
 })
 

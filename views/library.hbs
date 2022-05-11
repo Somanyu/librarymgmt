@@ -43,7 +43,7 @@
                         <div class="form-group mb-3">
                             <label class="form-label">Category</label>
                             <select class="form-select" style="font-family: Roboto, sans-serif;" name="categoryId">
-                                <option value="12" selected>Select a Category</option>
+                                <option value="12" disabled="disabled">Select a Category</option>
                                 {{#each catResult}}
                                 <option value="{{ this.categoryId }}">{{ this.categoryName }}</option>
                                 {{/each}}
@@ -54,7 +54,7 @@
                         <div class="form-group mb-3">
                             <label class="form-label">Publisher</label>
                             <select class="form-select" style="font-family: Roboto, sans-serif;" name="publicationId">
-                                <option value="12" selected>Select a Publisher</option>
+                                <option value="12" disabled="disabled">Select a Publisher</option>
                                 {{#each pubResult}}
                                 <option value="{{ this.publicationId }}">{{ this.publicationName }}</option>
                                 {{/each}}
@@ -63,39 +63,6 @@
                     </div>
                 </div>
 
-                {{!-- <div class="row">
-                    <div class="col-sm-4 col-md-2 col-lg-3 offset-md-1">
-                        <div class="form-group mb-3"><label class="form-label">Publication Year</label><input class="form-control" type="number" name="publicationYear" placeholder="Year of Publication" style="font-family: Roboto, sans-serif;" /></div>
-                    </div>
-                    <div class="col-sm-4 col-md-2 offset-md-2 offset-lg-0">
-                        <div class="form-group mb-3">
-                            <label class="form-label">Category</label>
-                            <select class="form-select" style="font-family: Roboto, sans-serif;" name="categoryId">
-                                <option value="12" selected>Select a Category</option>
-                                {{#each catResult}}
-                                <option value="{{ this.categoryId }}">{{ this.categoryName }}</option>
-                                {{/each}}
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="col-sm-4 col-md-2 col-lg-3 offset-md-1 offset-lg-0">
-                        <div class="form-group mb-3"><label class="form-label">Language</label><input class="form-control" type="text" name="language" placeholder="Book&#39;s Language" style="font-family: Roboto, sans-serif;" /></div>
-                    </div>
-                    
-                    <div class="col-sm-4 col-md-2 offset-md-2 offset-lg-0">
-                        <div class="form-group mb-3">
-                            <label class="form-label">Publisher</label>
-                            <select class="form-select" style="font-family: Roboto, sans-serif;" name="publicationId">
-                                <option value="12" selected>Select a Publisher</option>
-                                {{#each pubResult}}
-                                <option value="{{ this.publicationId }}">{{ this.publicationName }}</option>
-                                {{/each}}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                 --}}
                 <div class="row">
                     <div class="col-sm-6 col-md-5 offset-md-1">
                         <div class="form-group mb-3"><label class="form-label" style="font-family: Lato, sans-serif;">Copies of Book</label><input class="form-control" type="number" placeholder="Number of Copies" style="font-family: Roboto, sans-serif;" name="noCopies" /></div>
@@ -109,9 +76,12 @@
                         <div class="form-group mb-3"><label class="form-label">About the Book</label><textarea class="form-control" name="bookInfo" placeholder="Write some information about the book."></textarea></div>
                     </div>
                     <div class="col-sm-6 col-md-5 offset-md-0">
-                        <div class="form-group mb-3"><label class="form-label">Upload Image</label><input type="file" name="bookImage" class="form-control"></div>
+                        <div class="form-group mb-3"><label class="form-label">Upload Image</label><input type="file" name="bookImage" class="form-control" accept="image/png, image/jpeg" required></div>
                     </div>
                 </div>
+                {{#if message }}
+                <p style="color: #d30547;font-family: Lato, sans-serif;font-size: 16px;"><i class="icon-close" style="font-weight: bold;font-size: 17px;"></i>  {{message}}</p>
+                {{/if}}
                 <div class="row">
                     <div class="col-sm-12 col-lg-6 offset-lg-3 d-grid"><button class="btn btn-primary" type="submit" style="font-family: Poppins, sans-serif;background: #0a6dde;margin-bottom: 1.7rem;margin-top: 2rem;">Add Book</button></div>
                 </div>

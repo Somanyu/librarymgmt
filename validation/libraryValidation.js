@@ -30,9 +30,9 @@ const publicationValidation = (data) => {
 
 const bookValidation = (data) => {
     const schema = Joi.object({
-        isbn: Joi.number()
-            .min(10)
-            .max(15)
+        ISBN: Joi.number()
+            .min(5)
+            .max(100000000000000)
             .required()
             .label("ISBN"),
         bookTitle: Joi.string()
@@ -50,6 +50,15 @@ const bookValidation = (data) => {
             .max(20)
             .required()
             .label("Language"),
+        author: Joi.string()
+            .required()
+            .min(3)
+            .max(30)
+            .label("Author"),
+        categoryId: Joi.required()
+            .label("Category"),
+        publicationId: Joi.required()
+            .label("Publication"),
         noCopies: Joi.number()
             .min(0)
             .max(10)
@@ -62,13 +71,13 @@ const bookValidation = (data) => {
             .label("Current copies"),
         bookInfo: Joi.string()
             .min(20)
-            .max(150)
+            .max(2050)
             .required()
             .label("Book Info"),
         bookImage: Joi.string()
-            .required()
             .label("Book Image")
-    })
+    });
+    return schema.validate(data);
 }
 
 module.exports.categoryValidation = categoryValidation;
