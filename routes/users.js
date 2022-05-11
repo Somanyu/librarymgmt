@@ -10,7 +10,9 @@ router.get('*', checkUser);
 
 /* GET profile details after logged in. */
 router.get('/profile', requireAuth, (req, res) => {
-  res.render('profile');
+  res.render('profile', {
+    title: 'Profile'
+  });
 })
 
 
