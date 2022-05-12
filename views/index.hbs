@@ -9,7 +9,7 @@
                 {{#if user}}
                 <ul class="navbar-nav" style="font-family: Roboto, sans-serif;">
                     <li class="nav-item" style="text-align: center;border-radius: 5px;margin-right: 5px;margin-bottom: 5px;border-width: 1.7px;border-style: none;"><a class="nav-link" href="/users/profile" style="color: #0094ff;">{{user.firstName}}</a></li>
-                    <li class="nav-item" style="text-align: center;border-radius: 5px;margin-right: 5px;margin-bottom: 5px;border-width: 1.7px;border-style: none;"><a class="btn btn-primary" href="/auth/logout" role="button" style="font-family: Roboto, sans-serif;background: #e5053a;font-size: 18px;letter-spacing: .4px;border-style: none;">Logout</a></li>
+                    <li class="nav-item" style="text-align: center;border-radius: 5px;margin-right: 5px;margin-bottom: 5px;border-width: 1.7px;border-style: none;"><a class="btn btn-danger" href="/auth/logout" role="button" style="font-family: Roboto, sans-serif;background: #e5053a;font-size: 18px;letter-spacing: .4px;border-style: none;">Logout</a></li>
                 </ul>
                 {{else}}
                 <ul class="navbar-nav" style="font-family: Roboto, sans-serif;">
@@ -28,7 +28,11 @@
                 <div class="text-center text-md-start">
                     <h1 style="font-family: Poppins, sans-serif;font-weight: bold;">Amazing Library Management System for Libraries </h1>
                     <p style="color: #565959;font-family: Lato, sans-serif;letter-spacing: .5px;font-size: 1.2rem;">Manage your library anywhere, anytime</p>
+                    {{#if user}}
+                    <a  href="/library/books" class="btn btn-primary" role="button" style="font-family: Roboto, sans-serif;background: #0051ba;font-size: 18px;letter-spacing: .4px;margin-top: 10px;">Go to Library</a>
+                    {{else}}
                     <a  href="/login" class="btn btn-primary" role="button" style="font-family: Roboto, sans-serif;background: #0051ba;font-size: 18px;letter-spacing: .4px;margin-top: 10px;">Get Started</a>
+                    {{/if}}
                 </div>
             </div>
         </div>
