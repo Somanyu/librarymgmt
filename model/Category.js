@@ -12,7 +12,13 @@ const categorySchema = new mongoose.Schema({
         required: true,
         min: 15,
         max: 30
-    }
+    },
+    books: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Book'
+        }
+    ]
 });
 
 module.exports = mongoose.model('Category', categorySchema)

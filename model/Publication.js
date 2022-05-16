@@ -12,7 +12,13 @@ const publicationSchema = new mongoose.Schema({
         required: true,
         min: 10,
         max: 100
-    }
+    },
+    books: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Book'
+        }
+    ]
 });
 
 module.exports = mongoose.model('Publication', publicationSchema);
