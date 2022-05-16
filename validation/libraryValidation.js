@@ -7,7 +7,7 @@ const categoryValidation = (data) => {
             .required()
             .label("Category ID"),
         categoryName: Joi.string()
-            .min(5)
+            .min(3)
             .required()
             .label("Category Name")
     });

@@ -12,17 +12,31 @@ router.get('*', checkUser);
 
 /* GET Category details after logged in. */
 router.get('/category', requireAuth, (req, res) => {
-    Category.find(function (err, content) {
-        if (content) {
-            res.render('categories', {
-                title: 'Library | Category',
-                contents: content,
-                message: req.flash('message')
-            });
-        } else {
-            console.log(err);
-        }
-    });
+
+    Promise.all([Category.find().populate('books')]).then(([content]) => {
+        console.log(content);
+        res.render('categories', {
+            title: 'Library | Category',
+            contents: content,
+            message: req.flash('message')
+        });
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+
+    // Category.find(function (err, content) {
+    //     if (content) {
+    //         console.log(content);
+    //         res.render('categories', {
+    //             title: 'Library | Category',
+    //             contents: content,
+    //             message: req.flash('message')
+    //         });
+    //     } else {
+    //         console.log(err);
+    //     }
+    // }).populate("books");
 });
 
 /* POST Category details into MongoDB. */
@@ -64,22 +78,40 @@ router.post('/category', requireAuth, async (req, res) => {
         }
     }
 
+    const c = await Category.find().populate('books');
+    console.log('Categories: ', c);
+
 });
 
 
 /* GET Publication details after logged in. */
 router.get('/publication', requireAuth, (req, res) => {
-    Publication.find(function (err, content) {
-        if (content) {
-            res.render('publications', {
-                title: 'Library | Publication',
-                contents: content,
-                message: req.flash('message')
-            });
-        } else {
-            console.log(err);
-        }
-    });
+
+    Promise.all([Publication.find().populate('books')]).then(([content]) => {
+        console.log(content);
+        res.render('publications', {
+            title: 'Library | Publication',
+            contents: content,
+            message: req.flash('message')
+        });
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+
+    // Publication.find(function (err, content) {
+    //     if (content) {
+    //         res.render('publications', {
+    //             title: 'Library | Publication',
+    //             contents: content,
+    //             message: req.flash('message')
+    //         });
+    //     } else {
+    //         console.log(err);
+    //     }
+    // }).populate({
+    //     path: "books",
+    // });
 });
 
 /* POST Publication details into MongoDB. */
@@ -119,14 +151,17 @@ router.post('/publication', requireAuth, async (req, res) => {
         }
     }
 
+    const p = await Publication.find();
+    console.log('Publication: ', p);
+
 });
 
 /* GET Book details after logged in. */
 router.get('/books', requireAuth, (req, res) => {
     Promise.all([Category.find(), Publication.find(), Book.find().populate('publicationId').populate('categoryId')]).then(([catResult, pubResult, bookResult]) => {
         // Retrieving data as catResult and pubResult
-        console.log(bookResult);
-        console.log(catResult);
+        // console.log(bookResult);
+        // console.log(catResult);
         res.render('library', {
             title: 'Library | Books',
             catResult: catResult,
@@ -190,7 +225,7 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
 
         const catId = await Category.findOne({ categoryId: categoryId });
         const pubId = await Publication.findOne({ publicationId: publicationId });
-    
+
         // console.log("ISBN: " + ISBN);
         // console.log("Book Title: " + bookTitle)
         // console.log("Publication Year: " + publicationYear)
@@ -200,8 +235,8 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
         // console.log("Number of Copies: " + noCopies)
         // console.log("Current Copies: " + currentCopies)
         // console.log("Book Info: " + bookInfo);
-    
-    
+
+
         const book = new Book({
             ISBN: ISBN,
             bookTitle: bookTitle,
@@ -215,16 +250,25 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
             bookInfo: bookInfo,
             bookImage: bookImage
         });
-    
-    
+
+
         try {
             const savedBook = await book.save();
+
+            // Pushing same categories book into array.
+            catId.books.push(savedBook)
+            await catId.save();
+
+            // Pushing same categories book into array.
+            pubId.books.push(savedBook)
+            await pubId.save()
+
             console.log(savedBook);
             res.redirect('/library/books#bookSection');
         } catch (error) {
             console.log(error);
         }
-        
+
     }
 
 })
