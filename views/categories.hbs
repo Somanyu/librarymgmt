@@ -61,7 +61,11 @@
                             <tr>
                                 <td>{{ this.categoryId }}</td>
                                 <td>{{ this.categoryName }}</td>
-                                <td>6</td>
+                                <td>
+                                {{#each this.books }}
+                                    <a href="/library/books/{{this._id}}">{{this.bookTitle}}</a>,&nbsp;
+                                {{/each}}
+                                </td>
                             </tr>
                         {{/each}}
                     </tbody>
