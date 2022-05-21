@@ -33,6 +33,7 @@
                             <th>Publication ID</th>
                             <th>Publication Name</th>
                             <th>No. of Books</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody style="font-family: Roboto, sans-serif;">
@@ -42,8 +43,18 @@
                                 <td>{{ this.publicationName }}</td>
                                 <td>
                                 {{#each this.books }}
-                                <a href="/library/books/{{this._id}}">{{this.bookTitle}}</a>,&nbsp;
+                                <a href="/library/books/{{this._id}}">{{this.bookTitle}}</a><br>
                                 {{/each}}
+                                </td>
+                                <td>
+                                    <div class="d-flex d-md-flex justify-content-around align-items-center align-items-md-center">
+                                        <a href="/library/publication/update/{{this._id}}" class="btn btn-sm" type="button">
+                                            <i class="icon-pencil" data-bs-toggle="tooltip" style="font-size: 18px;color: #0051ba;" title="Edit"></i>
+                                        </a>
+                                        <a href="/library/publication/delete/{{this._id}}" class="btn btn-sm" type="button">
+                                            <i class="icon-trash" data-bs-toggle="tooltip" style="font-size: 18px;color: #e5053a;" title="Delete"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         {{/each}}

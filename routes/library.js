@@ -5,7 +5,7 @@ const Category = require('../model/Category');
 const Publication = require('../model/Publication');
 const Book = require('../model/Book');
 var router = express.Router();
-const mongoose = require('mongoose');
+const mongo = require('mongodb');
 const multer = require('multer')
 
 router.get('*', checkUser);
@@ -283,5 +283,28 @@ router.get('/books/:id', requireAuth, async (req, res) => {
     })
 })
 
+/* DELETE a Category from mongoDB Collection. */
+router.get('/category/delete/:id', requireAuth, async (req, res) => {
+
+    Promise.all([Category.deleteOne({_id: new mongo.ObjectId(req.params.id)}).populate('books')]).then(([content]) => {
+        console.log(content);
+        res.redirect('/library/category');
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+})
+
+/* DELETE a Publication from mongoDB Collection. */
+router.get('/publication/delete/:id', requireAuth, async (req, res) => {
+
+    Promise.all([Publication.deleteOne({_id: new mongo.ObjectId(req.params.id)}).populate('books')]).then(([content]) => {
+        console.log(content);
+        res.redirect('/library/publication');
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+})
 
 module.exports = router;
