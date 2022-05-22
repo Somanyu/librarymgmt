@@ -286,7 +286,7 @@ router.get('/books/:id', requireAuth, async (req, res) => {
 /* DELETE a Category from mongoDB Collection. */
 router.get('/category/delete/:id', requireAuth, async (req, res) => {
 
-    Promise.all([Category.deleteOne({_id: new mongo.ObjectId(req.params.id)}).populate('books')]).then(([content]) => {
+    Promise.all([Category.deleteOne({ _id: new mongo.ObjectId(req.params.id) }).populate('books')]).then(([content]) => {
         console.log(content);
         res.redirect('/library/category');
     }).catch(err => {
@@ -298,13 +298,26 @@ router.get('/category/delete/:id', requireAuth, async (req, res) => {
 /* DELETE a Publication from mongoDB Collection. */
 router.get('/publication/delete/:id', requireAuth, async (req, res) => {
 
-    Promise.all([Publication.deleteOne({_id: new mongo.ObjectId(req.params.id)}).populate('books')]).then(([content]) => {
+    Promise.all([Publication.deleteOne({ _id: new mongo.ObjectId(req.params.id) }).populate('books')]).then(([content]) => {
         console.log(content);
         res.redirect('/library/publication');
     }).catch(err => {
         console.log(err);
         res.sendStatus(500);
     })
+})
+
+/* DELETE a Book from mongoDB Collection. */
+router.get('/book/delete/:id', requireAuth, async (req, res) => {
+
+    Promise.all([Book.deleteOne({ _id: new mongo.ObjectId(req.params.id) })]).then(([content]) => {
+        console.log(content);
+        res.redirect('/library/books#bookSection');
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+
 })
 
 module.exports = router;
