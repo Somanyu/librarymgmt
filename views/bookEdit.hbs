@@ -30,11 +30,16 @@
                     <div class="col-sm-6 col-md-5 offset-md-1">
                         <div class="form-group mb-3">
                             <label class="form-label" style="font-family: Lato, sans-serif;">Category</label>
-                            <select class="form-select" style="font-family: Roboto, sans-serif;" name="categoryId">
-                                <option value="12" disabled="disabled" selected>Select a Category</option>
+                            <select class="form-select" style="font-family: Roboto, sans-serif;" name="categoryId"> 
+                                <option value="12" disabled="disabled" >Select a Category</option>
+                                
+                                {{#if bookDetails.categoryId.categoryId}}
+                                <option value="{{ bookDetails.categoryId.categoryId }}">{{ bookDetails.categoryId.categoryName }}</option>
+                                {{/if}}
                                 {{#each catResult}}
                                 <option value="{{ this.categoryId }}">{{ this.categoryName }}</option>
                                 {{/each}}
+                            
                             </select>
                         </div>
                     </div>
@@ -42,7 +47,10 @@
                         <div class="form-group mb-3">
                             <label class="form-label" style="font-family: Lato, sans-serif;">Publication</label>
                             <select class="form-select" style="font-family: Roboto, sans-serif;" name="publicationId">
-                                <option value="12" disabled="disabled" selected>Select a Publisher</option>
+                                <option value="12" disabled="disabled" >Select a Publisher</option>
+                                {{#if bookDetails.publicationId.publicationId}}
+                                <option value="{{ bookDetails.publicationId.publicationId }}">{{ bookDetails.publicationId.publicationName }}</option>
+                                {{/if}}
                                 {{#each pubResult}}
                                 <option value="{{ this.publicationId }}">{{ this.publicationName }}</option>
                                 {{/each}}
