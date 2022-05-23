@@ -320,4 +320,73 @@ router.get('/book/delete/:id', requireAuth, async (req, res) => {
 
 })
 
+
+/* UPDATE a existing Book. */
+router.get('/book/edit/:id', requireAuth, async (req, res) => {
+
+    Promise.all([Category.find(), Publication.find(), Book.findById(req.params.id).populate('publicationId').populate('categoryId')]).then(([catResult, pubResult, bookDetails]) => {
+        // Retrieving data as catResult and pubResult
+        // console.log(bookDetails);
+        // console.log(catResult);
+        res.render('bookEdit', {
+            title: bookDetails.bookTitle,
+            catResult: catResult,
+            pubResult: pubResult,
+            bookDetails: bookDetails
+        });
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+})
+
+router.post('/book/edit/:id', requireAuth, async (req, res) => {
+    const ISBN = req.body.ISBN;
+    const bookTitle = req.body.bookTitle;
+    const publicationYear = req.body.publicationYear;
+    const author = req.body.author
+    const categoryId = req.body.categoryId;
+    const language = req.body.language;
+    const publicationId = req.body.publicationId;
+    const noCopies = req.body.noCopies;
+    const currentCopies = req.body.currentCopies;
+    const bookInfo = req.body.bookInfo;
+
+    const { error } = bookValidation(req.body);
+    if (error) {
+        req.flash('message', error.details[0].message);
+        res.redirect('/library/books')
+    } else {
+
+        const catId = await Category.findOne({ categoryId: categoryId });
+        const pubId = await Publication.findOne({ publicationId: publicationId });
+
+        const searchQuery = {
+            ISBN: ISBN
+        }
+
+        const updatedBook = {
+            $set: {
+                bookTitle: bookTitle,
+                publicationYear: publicationYear,
+                author: author,
+                categoryId: catId._id,
+                language: language,
+                publicationId: pubId._id,
+                noCopies: noCopies,
+                currentCopies: currentCopies,
+                bookInfo: bookInfo
+            }
+        }
+
+        Book.updateOne(searchQuery, updatedBook, function(err, res) {
+            if (err) throw err;
+            console.log("1 Document updated.");
+        })
+        res.redirect('/library/books')
+    }
+
+})
+
+
 module.exports = router;
