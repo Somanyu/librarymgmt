@@ -379,7 +379,7 @@ router.post('/book/edit/:id', requireAuth, async (req, res) => {
             }
         }
 
-        Book.updateOne(searchQuery, updatedBook, function(err, res) {
+        Book.updateOne(searchQuery, updatedBook, function (err, res) {
             if (err) throw err;
             console.log("1 Document updated.");
         })
@@ -388,5 +388,21 @@ router.post('/book/edit/:id', requireAuth, async (req, res) => {
 
 })
 
+
+/* Issue a book to borrower. */
+router.get('/issue', requireAuth, async (req, res) => {
+    Promise.all([Book.find().populate('publicationId').populate('categoryId')]).then(([bookDetails]) => {
+        // Retrieving data as catResult and pubResult
+        // console.log(bookDetails);
+        // console.log(catResult);
+        res.render('issue', {
+            title: 'Library | Issue',
+            bookDetails: bookDetails
+        });
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+})
 
 module.exports = router;
