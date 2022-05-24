@@ -1,57 +1,100 @@
 <div class="container">
-    <div style="margin-bottom: 2px;margin-top: 1rem;"><a href="/library/books" style="font-family: Poppins, sans-serif;"><i class="icon-arrow-left"></i> Back to Library</a></div>
+  <div style="margin-bottom: 2px;margin-top: 1rem;"><a
+      href="/library/books"
+      style="font-family: Poppins, sans-serif;"
+    ><i class="icon-arrow-left"></i> Back to Library</a></div>
 </div>
 
 <div class="container" style="margin-top: 3rem;">
-    <div class="row">
-        <div class="col-md-3 offset-md-2 text-center"><img class="img-fluid" src="/uploads/books/{{bookDetails.bookImage}}" width="200" height="100" /></div>
-        <div class="col-md-5">
-            <h2 style="margin-top: 1rem;font-family: Roboto, sans-serif;font-weight: bold;margin-bottom: 1px;">{{bookDetails.bookTitle}}</h2>
-            <h4 style="font-style: italic;font-family: Poppins, sans-serif;">by {{bookDetails.author}}</h4>
-            <p style="font-family: Poppins, sans-serif;font-size: 16px;color: #919693;margin-bottom: 10px;">ISBN No. {{bookDetails.ISBN}}</p>
-            <div class="d-flex d-md-flex align-items-center justify-content-md-start align-items-md-center" style="font-family: Lato, sans-serif;margin-bottom: 1rem;">
-                <h5 style="font-family: Roboto, sans-serif;font-weight: bold;">Publisher: </h5>
-                <h5 style="font-family: Lato, sans-serif;">{{bookDetails.publicationId.publicationName}}, {{bookDetails.publicationYear}}</h5>
-            </div>
-            <div>
-                <h5 style="font-family: Lato, sans-serif;font-weight: bold;">Synopsis</h5>
-                <p style="font-family: Poppins, sans-serif;">{{bookDetails.bookInfo}}</p>
-            </div>
-            <span class="badge rounded-pill bg-primary" style="background: rgb(18,13,240);font-family: Lato, sans-serif;margin-bottom: 4px;font-size: 14px;">{{bookDetails.categoryId.categoryName}}</span>
-        </div>
+  <div class="row">
+    <div class="col-md-3 offset-md-2 text-center"><img
+        class="img-fluid"
+        src="/uploads/books/{{bookDetails.bookImage}}"
+        width="200"
+        height="100"
+      /></div>
+    <div class="col-md-5">
+      <h2
+        style="margin-top: 1rem;font-family: Roboto, sans-serif;font-weight: bold;margin-bottom: 1px;"
+      >{{bookDetails.bookTitle}}</h2>
+      <h4 style="font-style: italic;font-family: Poppins, sans-serif;">by
+        {{bookDetails.author}}</h4>
+      <p
+        style="font-family: Poppins, sans-serif;font-size: 16px;color: #919693;margin-bottom: 10px;"
+      >ISBN No. {{bookDetails.ISBN}}</p>
+      <div
+        class="d-flex d-md-flex align-items-center justify-content-md-start align-items-md-center"
+        style="font-family: Lato, sans-serif;margin-bottom: 1rem;"
+      >
+        <h5
+          style="font-family: Roboto, sans-serif;font-weight: bold;"
+        >Publisher: </h5>
+        <h5
+          style="font-family: Lato, sans-serif;"
+        >{{bookDetails.publicationId.publicationName}},
+          {{bookDetails.publicationYear}}</h5>
+      </div>
+      <div>
+        <h5
+          style="font-family: Lato, sans-serif;font-weight: bold;"
+        >Synopsis</h5>
+        <p
+          style="font-family: Poppins, sans-serif;"
+        >{{bookDetails.bookInfo}}</p>
+      </div>
+      <span
+        class="badge rounded-pill bg-primary"
+        style="background: rgb(18,13,240);font-family: Lato, sans-serif;margin-bottom: 4px;font-size: 14px;"
+      >{{bookDetails.categoryId.categoryName}}</span>
     </div>
-    <div class="d-flex d-md-flex justify-content-evenly align-items-center align-items-md-center" style="margin-bottom: 2.6rem;margin-top: 2rem;">
-        <a href="/library/book/edit/{{bookDetails._id}}" class="btn btn-primary btn-sm" role="button" style="font-family: Roboto, sans-serif;background: #0051ba;font-size: 18px;letter-spacing: .4px;">Edit Book  <i class="icon-pencil"></i></a>
-        <a href="/library/book/delete/{{bookDetails._id}}" class="btn btn-danger btn-sm" role="button" style="font-family: Roboto, sans-serif;background: #e5053a;font-size: 18px;letter-spacing: .4px;border-style: none;">Delete Book  <i class="icon-trash"></i></a>
-    </div>
+  </div>
+  <div
+    class="d-flex d-md-flex justify-content-evenly align-items-center align-items-md-center"
+    style="margin-bottom: 2.6rem;margin-top: 2rem;"
+  >
+    <a
+      href="/library/book/edit/{{bookDetails._id}}"
+      class="btn btn-primary btn-sm"
+      role="button"
+      style="font-family: Roboto, sans-serif;background: #0051ba;font-size: 18px;letter-spacing: .4px;"
+    >Edit Book  <i class="icon-pencil"></i></a>
+    <a
+      href="/library/book/delete/{{bookDetails._id}}"
+      class="btn btn-danger btn-sm"
+      role="button"
+      style="font-family: Roboto, sans-serif;background: #e5053a;font-size: 18px;letter-spacing: .4px;border-style: none;"
+    >Delete Book  <i class="icon-trash"></i></a>
+  </div>
 </div>
 
 <div class="container" style="margin-top: 2rem;margin-bottom: 2rem;">
-    <h1 style="text-align: center;font-family: Roboto, sans-serif;margin-top: 4rem;">Borrowers</h1>
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="table-responsive">
-                <table class="table table-borderless">
-                    <thead style="font-family: Lato, sans-serif;">
-                        <tr>
-                            <th>Borrower's Name</th>
-                            <th>Borrowed On</th>
-                            <th>Return Date</th>
-                            <th>Issued By</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-family: Roboto, sans-serif;">
-                        {{#each bookDetails.borrowers}}
-                        <tr>
-                            <td>{{this.name}}</td>
-                            <td>{{this.borrowDate}}</td>
-                            <td>{{this.returnDate}}</td>
-                            <td>{{this.issuedBy}}</td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <h1
+    style="text-align: center;font-family: Roboto, sans-serif;margin-top: 4rem;"
+  >Borrowers</h1>
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead style="font-family: Lato, sans-serif;">
+            <tr>
+              <th>Borrower's Name</th>
+              <th>Borrowed On</th>
+              <th>Return Date</th>
+              <th>Issued By</th>
+            </tr>
+          </thead>
+          <tbody style="font-family: Roboto, sans-serif;">
+            {{#each bookDetails.borrowers}}
+              <tr>
+                <td>{{this.name}}</td>
+                <td>{{this.borrowDate}}</td>
+                <td>{{this.returnDate}}</td>
+                <td>{{this.issuedBy}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
 </div>

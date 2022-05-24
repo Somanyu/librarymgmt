@@ -1,99 +1,193 @@
 <div class="container">
-    <div style="margin-bottom: 2px;margin-top: 1rem;"><a href="/library/books" style="font-family: Poppins, sans-serif;"><i class="icon-arrow-left"></i> Back to Library</a></div>
+  <div style="margin-bottom: 2px;margin-top: 1rem;"><a
+      href="/library/books"
+      style="font-family: Poppins, sans-serif;"
+    ><i class="icon-arrow-left"></i> Back to Library</a></div>
 </div>
 
 <div class="container" style="margin-top: 2rem;">
-    <div class="row">
-        <div class="col-md-12 col-lg-8 offset-lg-2" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;border-radius: 3px;background: rgb(255, 255, 255)">
-            <h1 style="margin-top: 10px;text-align: center;font-family: Lato, sans-serif;">Issue a book.</h1>
-            <form action="/library/issued" method="post" style="margin-top: 1.2rem;margin-bottom: 1.2rem;">
-                <div class="row">
-                    <div class="col-sm-4 col-md-2 col-lg-3 offset-md-1">
-                        <div class="form-group mb-3"><label class="form-label">Borrower&#39;s Name</label><input class="form-control" type="text" name="name" placeholder="Enter name of borrower" style="font-family: Roboto, sans-serif;" /></div>
-                    </div>
-                    <div class="col-sm-4 col-md-2 col-lg-4 offset-md-1 offset-lg-0">
-                        <div class="form-group mb-3"><label class="form-label">Gender</label><select class="form-select" style="font-family: Roboto, sans-serif;" name="gender">
-                                <option value="Male" selected>Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select></div>
-                    </div>
-                    <div class="col-sm-4 col-md-2 col-lg-3 offset-md-1 offset-lg-0">
-                        <div class="form-group mb-3"><label class="form-label">Date of Birth</label><input class="form-control" type="date" style="font-family: Roboto, sans-serif;" name="dob" /></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 col-md-5 offset-md-1">
-                        <div class="form-group mb-3"><label class="form-label" style="font-family: Lato, sans-serif;">Contact Number</label><input class="form-control" type="text" style="font-family: Roboto, sans-serif;" name="contact" placeholder="Enter contact of borrower" /></div>
-                    </div>
-                    <div class="col-sm-6 col-md-5 offset-md-0">
-                        <div class="form-group mb-3"><label class="form-label" style="font-family: Lato, sans-serif;">Borrowing Book</label><select class="form-select" style="font-family: Roboto, sans-serif;" name="borrowBook">
-                                <option value="12" disabled="disabled">Select a Category</option>
-                                {{#each bookDetails}}
-                                {{#if this.currentCopies}}
-                                <option value="{{ this._id }}">{{ this.bookTitle }} In Stock</option>
-                                {{else}}
-                                <option value="{{ this._id }}" style="color: #e5053a;font-family: Roboto,sans-serif;" disabled>{{ this.bookTitle }} Out of Stock</option>
-                                {{/if}}
-                                {{/each}}
-                            </select></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4 col-md-2 col-lg-3 offset-md-1">
-                        <div class="form-group mb-3"><label class="form-label">Borrowed Date</label><input class="form-control" type="date" style="font-family: Roboto, sans-serif;" name="borrowDate" /></div>
-                    </div>
-                    <div class="col-sm-4 col-md-2 col-lg-4 offset-md-1 offset-lg-0">
-                        <div class="form-group mb-3"><label class="form-label">Return Date</label><input class="form-control" type="date" style="font-family: Roboto, sans-serif;" name="returnDate" /></div>
-                    </div>
-                    <div class="col-sm-4 col-md-2 col-lg-3 offset-md-1 offset-lg-0">
-                        <div class="form-group mb-3"><label class="form-label">Returned On</label><input class="form-control" type="date" style="font-family: Roboto, sans-serif;" name="returnedOn" /></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 col-md-5 offset-md-1">
-                        <div class="form-group mb-3"><label class="form-label" style="font-family: Lato, sans-serif;">Issued By</label><input class="form-control" type="text" style="font-family: Roboto, sans-serif;" name="issuedBy" placeholder="Issued By" value="{{user.firstName}} {{user.lastName}}"/></div>
-                    </div>
-                    <div class="col-sm-6 col-md-5 offset-md-0">
-                        <div class="form-group mb-3"><label class="form-label" style="font-family: Lato, sans-serif;">Remarks</label><textarea class="form-control" name="remarks" placeholder="Enter remarks" style="font-family: Roboto, sans-serif;"></textarea></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 col-lg-6 offset-lg-3 d-grid"><button class="btn btn-primary" type="submit" style="font-family: Poppins, sans-serif;background: #0a6dde;">Issue Book</button></div>
-                </div>
-            </form>
+  <div class="row">
+    <div
+      class="col-md-12 col-lg-8 offset-lg-2"
+      style="box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;border-radius: 3px;background: rgb(255, 255, 255)"
+    >
+      <h1
+        style="margin-top: 10px;text-align: center;font-family: Lato, sans-serif;"
+      >Issue a book.</h1>
+      <form
+        action="/library/issued"
+        method="post"
+        style="margin-top: 1.2rem;margin-bottom: 1.2rem;"
+      >
+        <div class="row">
+          <div class="col-sm-4 col-md-2 col-lg-3 offset-md-1">
+            <div class="form-group mb-3"><label
+                class="form-label"
+              >Borrower&#39;s Name</label><input
+                class="form-control"
+                type="text"
+                name="name"
+                placeholder="Enter name of borrower"
+                style="font-family: Roboto, sans-serif;"
+              /></div>
+          </div>
+          <div class="col-sm-4 col-md-2 col-lg-4 offset-md-1 offset-lg-0">
+            <div class="form-group mb-3"><label
+                class="form-label"
+              >Gender</label><select
+                class="form-select"
+                style="font-family: Roboto, sans-serif;"
+                name="gender"
+              >
+                <option value="Male" selected>Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select></div>
+          </div>
+          <div class="col-sm-4 col-md-2 col-lg-3 offset-md-1 offset-lg-0">
+            <div class="form-group mb-3"><label class="form-label">Date of Birth</label><input
+                class="form-control"
+                type="date"
+                style="font-family: Roboto, sans-serif;"
+                name="dob"
+              /></div>
+          </div>
         </div>
+        <div class="row">
+          <div class="col-sm-6 col-md-5 offset-md-1">
+            <div class="form-group mb-3"><label
+                class="form-label"
+                style="font-family: Lato, sans-serif;"
+              >Contact Number</label><input
+                class="form-control"
+                type="text"
+                style="font-family: Roboto, sans-serif;"
+                name="contact"
+                placeholder="Enter contact of borrower"
+              /></div>
+          </div>
+          <div class="col-sm-6 col-md-5 offset-md-0">
+            <div class="form-group mb-3"><label
+                class="form-label"
+                style="font-family: Lato, sans-serif;"
+              >Borrowing Book</label><select
+                class="form-select"
+                style="font-family: Roboto, sans-serif;"
+                name="borrowBook"
+              >
+                <option value="12" disabled="disabled">Select a Category</option>
+                {{#each bookDetails}}
+                  {{#if this.currentCopies}}
+                    <option value="{{this._id}}">{{this.bookTitle}}
+                      In Stock</option>
+                  {{else}}
+                    <option
+                      value="{{this._id}}"
+                      style="color: #e5053a;font-family: Roboto,sans-serif;"
+                      disabled
+                    >{{this.bookTitle}} Out of Stock</option>
+                  {{/if}}
+                {{/each}}
+              </select></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 col-md-2 col-lg-3 offset-md-1">
+            <div class="form-group mb-3"><label class="form-label">Borrowed Date</label><input
+                class="form-control"
+                type="date"
+                style="font-family: Roboto, sans-serif;"
+                name="borrowDate"
+              /></div>
+          </div>
+          <div class="col-sm-4 col-md-2 col-lg-4 offset-md-1 offset-lg-0">
+            <div class="form-group mb-3"><label class="form-label">Return Date</label><input
+                class="form-control"
+                type="date"
+                style="font-family: Roboto, sans-serif;"
+                name="returnDate"
+              /></div>
+          </div>
+          <div class="col-sm-4 col-md-2 col-lg-3 offset-md-1 offset-lg-0">
+            <div class="form-group mb-3"><label class="form-label">Returned On</label><input
+                class="form-control"
+                type="date"
+                style="font-family: Roboto, sans-serif;"
+                name="returnedOn"
+              /></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-md-5 offset-md-1">
+            <div class="form-group mb-3"><label
+                class="form-label"
+                style="font-family: Lato, sans-serif;"
+              >Issued By</label><input
+                class="form-control"
+                type="text"
+                style="font-family: Roboto, sans-serif;"
+                name="issuedBy"
+                placeholder="Issued By"
+                value="{{user.firstName}} {{user.lastName}}"
+              /></div>
+          </div>
+          <div class="col-sm-6 col-md-5 offset-md-0">
+            <div class="form-group mb-3"><label
+                class="form-label"
+                style="font-family: Lato, sans-serif;"
+              >Remarks</label><textarea
+                class="form-control"
+                name="remarks"
+                placeholder="Enter remarks"
+                style="font-family: Roboto, sans-serif;"
+              ></textarea></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-lg-6 offset-lg-3 d-grid"><button
+              class="btn btn-primary"
+              type="submit"
+              style="font-family: Poppins, sans-serif;background: #0a6dde;"
+            >Issue Book</button></div>
+        </div>
+      </form>
     </div>
-    <div style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;"><a href="/library/books#bookSection" style="font-family: Roboto, sans-serif;">See Available Books </a></div>
+  </div>
+  <div style="text-align: center;margin-top: 2rem;margin-bottom: 2rem;"><a
+      href="/library/books#bookSection"
+      style="font-family: Roboto, sans-serif;"
+    >See Available Books </a></div>
 </div>
 <div class="container" style="margin-top: 2rem;margin-bottom: 2rem;">
-    <h1 style="text-align: center;font-family: Roboto, sans-serif;margin-top: 4rem;">Borrowers</h1>
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="table-responsive">
-                <table class="table table-borderless">
-                    <thead style="font-family: Lato, sans-serif;">
-                        <tr>
-                            <th>Borrower's Name</th>
-                            <th>Book Borrowed</th>
-                            <th>Borrowed Date</th>
-                            <th>Return Date</th>
-                            <th>Issued By</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-family: Roboto, sans-serif;">
-                        {{#each borrowerDetails}}
-                        <tr>
-                            <td>{{this.name}}</td>
-                            <td>{{this.borrowBook.bookTitle}}</td>
-                            <td>{{this.borrowDate}}</td>
-                            <td>{{this.returnDate}}</td>
-                            <td>{{this.issuedBy}}</td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <h1
+    style="text-align: center;font-family: Roboto, sans-serif;margin-top: 4rem;"
+  >Borrowers</h1>
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead style="font-family: Lato, sans-serif;">
+            <tr>
+              <th>Borrower's Name</th>
+              <th>Book Borrowed</th>
+              <th>Borrowed Date</th>
+              <th>Return Date</th>
+              <th>Issued By</th>
+            </tr>
+          </thead>
+          <tbody style="font-family: Roboto, sans-serif;">
+            {{#each borrowerDetails}}
+              <tr>
+                <td>{{this.name}}</td>
+                <td>{{this.borrowBook.bookTitle}}</td>
+                <td>{{this.borrowDate}}</td>
+                <td>{{this.returnDate}}</td>
+                <td>{{this.issuedBy}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
 </div>

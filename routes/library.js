@@ -349,7 +349,7 @@ router.post('/book/edit/:id', requireAuth, async (req, res) => {
             if (err) throw err;
             console.log("1 Document updated.");
         })
-        res.redirect('/library/books')
+        res.redirect('/library/books#'+bookTitle)
     }
 
 })
