@@ -15,9 +15,7 @@ const borrowerSchema = new mongoose.Schema({
     },
     dob: {
         type: Date,
-        required: true,
-        min: 15,
-        max: 30
+        required: true
     },
     contact: {
         type: String,
@@ -54,4 +52,4 @@ const borrowerSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('User', borrowerSchema);
+module.exports = mongoose.model('Borrower', borrowerSchema);
