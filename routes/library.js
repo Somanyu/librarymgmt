@@ -230,7 +230,7 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
             await pubId.save()
 
             console.log(savedBook);
-            res.redirect('/library/books#bookSection');
+            res.redirect('/library/books#'+bookTitle);
         } catch (error) {
             console.log(error);
         }
@@ -383,6 +383,8 @@ router.post('/issued', requireAuth, async (req, res) => {
     const returnedOn = req.body.returnedOn;
     const issuedBy = req.body.issuedBy;
     const remarks = req.body.remarks;
+
+    const bookId = await Book.findById({borrowBook})
 
     const borrow = new Borrower({
         name: name,

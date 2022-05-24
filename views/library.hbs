@@ -99,7 +99,7 @@
 <h2 class="text-center" style="margin-top: 4rem;margin-bottom: 3rem;font-family: Roboto, sans-serif;">Books in Library</h2>
     <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
         {{#each bookResult}}
-        <div class="col-lg-5">
+        <div id="{{this.bookTitle}}" class="col-lg-5">
             <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="/uploads/books/{{this.bookImage}}" />
                 <div class="card-body p-4">
                     <span class="badge rounded-pill bg-primary" style="background: rgb(18,13,240);font-family: Lato, sans-serif;margin-bottom: 4px;">{{this.categoryId.categoryName}}</span>
