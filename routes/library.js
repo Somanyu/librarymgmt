@@ -4,9 +4,11 @@ const { categoryValidation, publicationValidation, bookValidation } = require('.
 const Category = require('../model/Category');
 const Publication = require('../model/Publication');
 const Book = require('../model/Book');
+const Borrwer = require('../model/Borrower');
 var router = express.Router();
 const mongo = require('mongodb');
-const multer = require('multer')
+const multer = require('multer');
+const Borrower = require('../model/Borrower');
 
 router.get('*', checkUser);
 
@@ -25,18 +27,6 @@ router.get('/category', requireAuth, (req, res) => {
         res.sendStatus(500);
     })
 
-    // Category.find(function (err, content) {
-    //     if (content) {
-    //         console.log(content);
-    //         res.render('categories', {
-    //             title: 'Library | Category',
-    //             contents: content,
-    //             message: req.flash('message')
-    //         });
-    //     } else {
-    //         console.log(err);
-    //     }
-    // }).populate("books");
 });
 
 /* POST Category details into MongoDB. */
@@ -99,19 +89,6 @@ router.get('/publication', requireAuth, (req, res) => {
         res.sendStatus(500);
     })
 
-    // Publication.find(function (err, content) {
-    //     if (content) {
-    //         res.render('publications', {
-    //             title: 'Library | Publication',
-    //             contents: content,
-    //             message: req.flash('message')
-    //         });
-    //     } else {
-    //         console.log(err);
-    //     }
-    // }).populate({
-    //     path: "books",
-    // });
 });
 
 /* POST Publication details into MongoDB. */
@@ -225,17 +202,6 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
 
         const catId = await Category.findOne({ categoryId: categoryId });
         const pubId = await Publication.findOne({ publicationId: publicationId });
-
-        // console.log("ISBN: " + ISBN);
-        // console.log("Book Title: " + bookTitle)
-        // console.log("Publication Year: " + publicationYear)
-        // console.log("Category: " + catId._id)
-        // console.log("Language: " + language)
-        // console.log("Publication: " + pubId._id)
-        // console.log("Number of Copies: " + noCopies)
-        // console.log("Current Copies: " + currentCopies)
-        // console.log("Book Info: " + bookInfo);
-
 
         const book = new Book({
             ISBN: ISBN,
@@ -391,18 +357,52 @@ router.post('/book/edit/:id', requireAuth, async (req, res) => {
 
 /* Issue a book to borrower. */
 router.get('/issue', requireAuth, async (req, res) => {
-    Promise.all([Book.find().populate('publicationId').populate('categoryId')]).then(([bookDetails]) => {
-        // Retrieving data as catResult and pubResult
-        // console.log(bookDetails);
-        // console.log(catResult);
+    // Retrieving data for bookDetails
+    Promise.all([Book.find().populate('publicationId').populate('categoryId'), Borrower.find().populate('borrowBook')]).then(([bookDetails, borrowerDetails]) => {
         res.render('issue', {
             title: 'Library | Issue',
-            bookDetails: bookDetails
+            bookDetails: bookDetails,
+            borrowerDetails: borrowerDetails
         });
     }).catch(err => {
         console.log(err);
         res.sendStatus(500);
     })
+})
+
+/* POST details of borrower with book. */
+router.post('/issued', requireAuth, async (req, res) => {
+
+    const name = req.body.name;
+    const gender = req.body.gender;
+    const dob = req.body.dob;
+    const contact = req.body.contact;
+    const borrowBook = req.body.borrowBook;
+    const borrowDate = req.body.borrowDate;
+    const returnDate = req.body.returnDate;
+    const returnedOn = req.body.returnedOn;
+    const issuedBy = req.body.issuedBy;
+    const remarks = req.body.remarks;
+
+    const borrow = new Borrower({
+        name: name,
+        gender: gender,
+        dob: dob,
+        contact: contact,
+        borrowBook: borrowBook,
+        borrowDate: borrowDate,
+        returnDate: returnDate,
+        returnedOn: returnedOn,
+        issuedBy: issuedBy,
+        remarks: remarks
+    });
+
+    try {
+        const savedBorrow = await borrow.save();
+        res.redirect('/library/issue');
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 module.exports = router;
