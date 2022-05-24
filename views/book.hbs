@@ -25,3 +25,33 @@
         <a href="/library/book/delete/{{bookDetails._id}}" class="btn btn-danger btn-sm" role="button" style="font-family: Roboto, sans-serif;background: #e5053a;font-size: 18px;letter-spacing: .4px;border-style: none;">Delete Book  <i class="icon-trash"></i></a>
     </div>
 </div>
+
+<div class="container" style="margin-top: 2rem;margin-bottom: 2rem;">
+    <h1 style="text-align: center;font-family: Roboto, sans-serif;margin-top: 4rem;">Borrowers</h1>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="table-responsive">
+                <table class="table table-borderless">
+                    <thead style="font-family: Lato, sans-serif;">
+                        <tr>
+                            <th>Borrower's Name</th>
+                            <th>Borrowed On</th>
+                            <th>Return Date</th>
+                            <th>Issued By</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-family: Roboto, sans-serif;">
+                        {{#each bookDetails.borrowers}}
+                        <tr>
+                            <td>{{this.name}}</td>
+                            <td>{{this.borrowDate}}</td>
+                            <td>{{this.returnDate}}</td>
+                            <td>{{this.issuedBy}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

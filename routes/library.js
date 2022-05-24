@@ -241,7 +241,7 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
 
 /* GET each book details after logged in. */
 router.get('/books/:id', requireAuth, async (req, res) => {
-    const bookDetails = await Book.findById(req.params.id).populate('publicationId').populate('categoryId')
+    const bookDetails = await Book.findById(req.params.id).populate('publicationId').populate('categoryId').populate('borrowers')
     console.log(bookDetails);
     res.render('book', {
         bookDetails: bookDetails,
@@ -384,14 +384,14 @@ router.post('/issued', requireAuth, async (req, res) => {
     const issuedBy = req.body.issuedBy;
     const remarks = req.body.remarks;
 
-    const bookId = await Book.findById({borrowBook})
+    const bookId = await Book.findOne({borrowBook})
 
     const borrow = new Borrower({
         name: name,
         gender: gender,
         dob: dob,
         contact: contact,
-        borrowBook: borrowBook,
+        borrowBook: bookId._id,
         borrowDate: borrowDate,
         returnDate: returnDate,
         returnedOn: returnedOn,
@@ -401,6 +401,11 @@ router.post('/issued', requireAuth, async (req, res) => {
 
     try {
         const savedBorrow = await borrow.save();
+
+        // Pushing borrowers of same book.
+        bookId.borrowers.push(savedBorrow)
+        await bookId.save();
+
         res.redirect('/library/issue');
     } catch (error) {
         console.log(error);

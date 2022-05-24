@@ -63,7 +63,7 @@ const bookSchema = new mongoose.Schema({
         type: String,
         contentType: String
     },
-    books: [
+    borrowers: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Borrower'
