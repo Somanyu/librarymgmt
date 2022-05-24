@@ -10,7 +10,7 @@ const bookSchema = new mongoose.Schema({
     bookTitle: {
         type: String,
         required: true,
-        min: 12,
+        min: 5,
         max: 40
     },
     author:{
