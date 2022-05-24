@@ -62,7 +62,13 @@ const bookSchema = new mongoose.Schema({
     bookImage: {
         type: String,
         contentType: String
-    }
+    },
+    books: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Borrower'
+        }
+    ]
 });
 
 module.exports = mongoose.model('Book', bookSchema);
