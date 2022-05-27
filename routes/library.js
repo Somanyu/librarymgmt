@@ -384,7 +384,9 @@ router.post('/issued', requireAuth, async (req, res) => {
     const issuedBy = req.body.issuedBy;
     const remarks = req.body.remarks;
 
-    const bookId = await Book.findOne({borrowBook})
+    const bookId = await Book.findOne({bookTitle: borrowBook})
+    // console.log("\nBook to issue-");
+    // console.log(bookId)
 
     const borrow = new Borrower({
         name: name,

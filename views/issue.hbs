@@ -75,14 +75,14 @@
                 style="font-family: Roboto, sans-serif;"
                 name="borrowBook"
               >
-                <option value="12" disabled="disabled">Select a Category</option>
+                <option value="12" disabled="disabled">Select a Book</option>
                 {{#each bookDetails}}
                   {{#if this.currentCopies}}
-                    <option value="{{this._id}}">{{this.bookTitle}}
+                    <option value="{{this.bookTitle}}">{{this.bookTitle}}
                       In Stock</option>
                   {{else}}
                     <option
-                      value="{{this._id}}"
+                      value="{{this.bookTitle}}"
                       style="color: #e5053a;font-family: Roboto,sans-serif;"
                       disabled
                     >{{this.bookTitle}} Out of Stock</option>
