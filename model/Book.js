@@ -11,7 +11,7 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true,
         min: 5,
-        max: 40
+        max: 100
     },
     author:{
         type: String,
@@ -38,7 +38,6 @@ const bookSchema = new mongoose.Schema({
     },
     currentCopies: {
         type: Number,
-        required: true,
         min: 0,
         max: 10
     },

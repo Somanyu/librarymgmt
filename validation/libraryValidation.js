@@ -37,7 +37,7 @@ const bookValidation = (data) => {
             .label("ISBN"),
         bookTitle: Joi.string()
             .min(5)
-            .max(40)
+            .max(100)
             .required()
             .label("Book Title"),
         publicationYear: Joi.number()

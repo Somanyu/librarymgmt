@@ -212,7 +212,7 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
             language: language,
             publicationId: pubId._id,
             noCopies: noCopies,
-            currentCopies: currentCopies,
+            currentCopies: noCopies,
             bookInfo: bookInfo,
             bookImage: bookImage
         });
