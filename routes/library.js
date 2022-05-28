@@ -406,7 +406,7 @@ router.post('/issued', requireAuth, async (req, res) => {
 
         // Pushing borrowers of same book.
         bookId.borrowers.push(savedBorrow)
-       
+
         const searchQuery = {
             _id: bookId._id
         }
@@ -419,7 +419,7 @@ router.post('/issued', requireAuth, async (req, res) => {
             if (err) throw err;
             console.log("1 Document updated.");
         })
-        
+
         await bookId.save();
 
         res.redirect('/library/issue');
@@ -431,17 +431,16 @@ router.post('/issued', requireAuth, async (req, res) => {
 router.get('/search', requireAuth, async (req, res) => {
 
     var regex = new RegExp(req.query["term"], 'i');
-    var bookFind = Book.find({bookTitle: regex}, {'bookTitle':1}).limit(5);
-    
-    bookFind.exec(function(err, data){
+    var bookFind = Book.find({ bookTitle: regex }, { 'bookTitle': 1 }).limit(5);
 
-        console.log(data);
+    bookFind.exec(function (err, data) {
+        // console.log(data);
 
-        var result=[];
-        
-        if(!err) {
-            if(data && data.length && data.length>0){
-                data.forEach(books=>{
+        var result = [];
+
+        if (!err) {
+            if (data && data.length && data.length > 0) {
+                data.forEach(books => {
                     let obj = {
                         id: books._id,
                         label: books.bookTitle
@@ -449,6 +448,7 @@ router.get('/search', requireAuth, async (req, res) => {
                     result.push(obj);
                 });
             }
+            // console.log(result);
             res.jsonp(result);
         }
     });
