@@ -212,7 +212,7 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
             language: language,
             publicationId: pubId._id,
             noCopies: noCopies,
-            currentCopies: noCopies,
+            currentCopies: currentCopies,
             bookInfo: bookInfo,
             bookImage: bookImage
         });
@@ -230,7 +230,7 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
             await pubId.save()
 
             console.log(savedBook);
-            res.redirect('/library/books#'+bookTitle);
+            res.redirect('/library/books#' + bookTitle);
         } catch (error) {
             console.log(error);
         }
@@ -349,7 +349,7 @@ router.post('/book/edit/:id', requireAuth, async (req, res) => {
             if (err) throw err;
             console.log("1 Document updated.");
         })
-        res.redirect('/library/books#'+bookTitle)
+        res.redirect('/library/books#' + bookTitle)
     }
 
 })
@@ -384,7 +384,7 @@ router.post('/issued', requireAuth, async (req, res) => {
     const issuedBy = req.body.issuedBy;
     const remarks = req.body.remarks;
 
-    const bookId = await Book.findOne({bookTitle: borrowBook})
+    const bookId = await Book.findOne({ bookTitle: borrowBook })
     // console.log("\nBook to issue-");
     // console.log(bookId)
 
@@ -406,12 +406,78 @@ router.post('/issued', requireAuth, async (req, res) => {
 
         // Pushing borrowers of same book.
         bookId.borrowers.push(savedBorrow)
+       
+        const searchQuery = {
+            _id: bookId._id
+        }
+
+        Book.updateOne(searchQuery, {
+            $inc: {
+                currentCopies: -1
+            }
+        }, function (err, res) {
+            if (err) throw err;
+            console.log("1 Document updated.");
+        })
+        
         await bookId.save();
 
         res.redirect('/library/issue');
     } catch (error) {
         console.log(error);
     }
+})
+
+router.get('/search', requireAuth, async (req, res) => {
+
+    var regex = new RegExp(req.query["term"], 'i');
+    var bookFind = Book.find({bookTitle: regex}, {'bookTitle':1}).limit(5);
+    
+    bookFind.exec(function(err, data){
+
+        console.log(data);
+
+        var result=[];
+        
+        if(!err) {
+            if(data && data.length && data.length>0){
+                data.forEach(books=>{
+                    let obj = {
+                        id: books._id,
+                        label: books.bookTitle
+                    };
+                    result.push(obj);
+                });
+            }
+            res.jsonp(result);
+        }
+    });
+
+
+    // const agg = [
+    //     {
+    //         $search: {
+    //             text: {
+    //                 query: req.body.bookSearch,
+    //                 path: {
+    //                     wildcard: "*"
+    //                 },
+    //                 fuzzy: {
+    //                     maxEdits: 2,
+    //                     prefixLength: 3
+    //                 }
+    //             }
+    //         }
+    //     }
+    // ]
+
+    // Book.aggregate(agg, function(err, result) {
+    //     if(err){
+    //         console.log(err);
+    //     } else {
+    //         res.send(result)
+    //     }
+    // })
 })
 
 module.exports = router;
