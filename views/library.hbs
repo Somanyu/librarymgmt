@@ -102,7 +102,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <form action="/library/search" method="get">
+                <form action="/library/searchBook" method="get">
                     <div class="input-group mb-4">
                         <input name="bookSearch" id="bookSearch" type="text" placeholder="What're you searching for?" aria-describedby="button-addon5" class="form-control">
                             <div class="input-group-append">
@@ -156,7 +156,7 @@
             minLength: 1,
             select: function(event, ui){
                 if(ui.item){
-                    $('#bookSearch').text(ui.item.label)
+                    $('#bookSearch').val(ui.item.label)
                 }
             }
         });

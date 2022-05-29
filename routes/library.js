@@ -428,6 +428,7 @@ router.post('/issued', requireAuth, async (req, res) => {
     }
 })
 
+/* Searching Book with jquery autocomplete. */
 router.get('/search', requireAuth, async (req, res) => {
 
     var regex = new RegExp(req.query["term"], 'i');
@@ -442,8 +443,8 @@ router.get('/search', requireAuth, async (req, res) => {
             if (data && data.length && data.length > 0) {
                 data.forEach(books => {
                     let obj = {
-                        id: books._id,
-                        label: books.bookTitle
+                        // id: books._id,
+                        label: books.bookTitle,
                     };
                     result.push(obj);
                 });
@@ -453,31 +454,14 @@ router.get('/search', requireAuth, async (req, res) => {
         }
     });
 
+})
 
-    // const agg = [
-    //     {
-    //         $search: {
-    //             text: {
-    //                 query: req.body.bookSearch,
-    //                 path: {
-    //                     wildcard: "*"
-    //                 },
-    //                 fuzzy: {
-    //                     maxEdits: 2,
-    //                     prefixLength: 3
-    //                 }
-    //             }
-    //         }
-    //     }
-    // ]
+router.get('/searchBook', requireAuth, async (req, res) => {
+    const bookSearch = req.query.bookSearch;
+    // console.log(bookSearch);
+    const x = await Book.find({ bookTitle: bookSearch })
+    res.send(x)
 
-    // Book.aggregate(agg, function(err, result) {
-    //     if(err){
-    //         console.log(err);
-    //     } else {
-    //         res.send(result)
-    //     }
-    // })
 })
 
 module.exports = router;
