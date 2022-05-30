@@ -30,15 +30,15 @@ const borrowerSchema = new mongoose.Schema({
     },
     borrowDate: {
         type: Date,
-        default: Date.now
+        default: Date.now()
     },
     returnDate: {
         type: Date,
-        default: Date.now
+        default: () => new Date(+new Date() + 7*24*60*60*1000)
     },
     returnedOn: {
         type: Date,
-        default: Date.now
+        default: Date.now()
     },
     issuedBy: {
         type: String,
