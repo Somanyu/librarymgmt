@@ -465,4 +465,21 @@ router.get('/searchBook', requireAuth, async (req, res) => {
 
 })
 
+router.get('/return/:id', requireAuth, async (req, res) => {
+    const searchQuery = {
+        _id: req.params.id
+    }
+    const returnedOnDate = {
+        $set: {
+            returnedOn: Date.now(),
+        }
+    }
+    Borrower.updateOne(searchQuery, returnedOnDate, function (err, res) {
+        if (err) throw err;
+        console.log("1 Document updated.");
+    })
+    res.redirect('/library/issue#issueSection');
+})
+
+
 module.exports = router;
