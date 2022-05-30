@@ -460,7 +460,8 @@ router.get('/searchBook', requireAuth, async (req, res) => {
     const bookSearch = req.query.bookSearch;
     // console.log(bookSearch);
     const x = await Book.find({ bookTitle: bookSearch })
-    res.send(x)
+    // res.send(x);
+    res.redirect('/library/books#' + bookSearch)
 
 })
 
