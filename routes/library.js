@@ -455,6 +455,7 @@ router.get('/search', requireAuth, async (req, res) => {
 
 })
 
+/* Redirecting to the searched book. */
 router.get('/searchBook', requireAuth, async (req, res) => {
     const bookSearch = req.query.bookSearch;
     // console.log(bookSearch);
@@ -464,6 +465,8 @@ router.get('/searchBook', requireAuth, async (req, res) => {
 
 })
 
+
+/* Return the book and increment the currentCopies by 1. */
 router.get('/return/:id', requireAuth, async (req, res) => {
 
     const borrower = await Borrower.findById(req.params.id).populate('borrowBook')
@@ -510,21 +513,18 @@ router.get('/return/:id', requireAuth, async (req, res) => {
         console.log(error);
     }
 
-
-    // const searchQuery = {
-    //     _id: req.params.id
-    // }
-    // const returnedOnDate = {
-    //     $set: {
-    //         returnedOn: Date.now(),
-    //     }
-    // }
-    // Borrower.updateOne(searchQuery, returnedOnDate, function (err) {
-    //     if (err) throw err;
-    //     console.log("\n1 Book returned.");
-    // })
-    // res.redirect('/library/issue#' + req.params.id);
 })
 
+/* DELETE a Borrower details from mongoDB Collection. */
+router.get('/issue/delete/:id', requireAuth, async (req, res) => {
+
+    Promise.all([Borrower.deleteOne({ _id: new mongo.ObjectId(req.params.id) }).populate('borrowBook')]).then(([content]) => {
+        // console.log(content);
+        res.redirect('/library/issue#' + req.params.id);
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+})
 
 module.exports = router;
