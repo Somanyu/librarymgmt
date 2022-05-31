@@ -4,7 +4,6 @@ const { categoryValidation, publicationValidation, bookValidation } = require('.
 const Category = require('../model/Category');
 const Publication = require('../model/Publication');
 const Book = require('../model/Book');
-const Borrwer = require('../model/Borrower');
 var router = express.Router();
 const mongo = require('mongodb');
 const multer = require('multer');
@@ -16,7 +15,7 @@ router.get('*', checkUser);
 router.get('/category', requireAuth, (req, res) => {
 
     Promise.all([Category.find().populate('books')]).then(([content]) => {
-        console.log(content);
+        // console.log(content);
         res.render('categories', {
             title: 'Library | Category',
             contents: content,
@@ -69,7 +68,7 @@ router.post('/category', requireAuth, async (req, res) => {
     }
 
     const c = await Category.find().populate('books');
-    console.log('Categories: ', c);
+    // console.log('Categories: ', c);
 
 });
 
@@ -78,7 +77,7 @@ router.post('/category', requireAuth, async (req, res) => {
 router.get('/publication', requireAuth, (req, res) => {
 
     Promise.all([Publication.find().populate('books')]).then(([content]) => {
-        console.log(content);
+        // console.log(content);
         res.render('publications', {
             title: 'Library | Publication',
             contents: content,
@@ -129,7 +128,7 @@ router.post('/publication', requireAuth, async (req, res) => {
     }
 
     const p = await Publication.find();
-    console.log('Publication: ', p);
+    // console.log('Publication: ', p);
 
 });
 
@@ -229,7 +228,7 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
             pubId.books.push(savedBook)
             await pubId.save()
 
-            console.log(savedBook);
+            // console.log(savedBook);
             res.redirect('/library/books#' + bookTitle);
         } catch (error) {
             console.log(error);
@@ -242,7 +241,7 @@ router.post('/books', requireAuth, upload.single('bookImage'), async (req, res) 
 /* GET each book details after logged in. */
 router.get('/books/:id', requireAuth, async (req, res) => {
     const bookDetails = await Book.findById(req.params.id).populate('publicationId').populate('categoryId').populate('borrowers')
-    console.log(bookDetails);
+    // console.log(bookDetails);
     res.render('book', {
         bookDetails: bookDetails,
         title: bookDetails.bookTitle
@@ -253,7 +252,7 @@ router.get('/books/:id', requireAuth, async (req, res) => {
 router.get('/category/delete/:id', requireAuth, async (req, res) => {
 
     Promise.all([Category.deleteOne({ _id: new mongo.ObjectId(req.params.id) }).populate('books')]).then(([content]) => {
-        console.log(content);
+        // console.log(content);
         res.redirect('/library/category');
     }).catch(err => {
         console.log(err);
@@ -265,7 +264,7 @@ router.get('/category/delete/:id', requireAuth, async (req, res) => {
 router.get('/publication/delete/:id', requireAuth, async (req, res) => {
 
     Promise.all([Publication.deleteOne({ _id: new mongo.ObjectId(req.params.id) }).populate('books')]).then(([content]) => {
-        console.log(content);
+        // console.log(content);
         res.redirect('/library/publication');
     }).catch(err => {
         console.log(err);
@@ -277,7 +276,7 @@ router.get('/publication/delete/:id', requireAuth, async (req, res) => {
 router.get('/book/delete/:id', requireAuth, async (req, res) => {
 
     Promise.all([Book.deleteOne({ _id: new mongo.ObjectId(req.params.id) })]).then(([content]) => {
-        console.log(content);
+        // console.log(content);
         res.redirect('/library/books#bookSection');
     }).catch(err => {
         console.log(err);
@@ -347,7 +346,7 @@ router.post('/book/edit/:id', requireAuth, async (req, res) => {
 
         Book.updateOne(searchQuery, updatedBook, function (err, res) {
             if (err) throw err;
-            console.log("1 Document updated.");
+            console.log("1 Book updated.");
         })
         res.redirect('/library/books#' + bookTitle)
     }
@@ -422,7 +421,7 @@ router.post('/issued', requireAuth, async (req, res) => {
 
         await bookId.save();
 
-        res.redirect('/library/issue#'+name);
+        res.redirect('/library/issue#' + name);
     } catch (error) {
         console.log(error);
     }
@@ -466,19 +465,65 @@ router.get('/searchBook', requireAuth, async (req, res) => {
 })
 
 router.get('/return/:id', requireAuth, async (req, res) => {
-    const searchQuery = {
-        _id: req.params.id
-    }
-    const returnedOnDate = {
-        $set: {
-            returnedOn: Date.now(),
+
+    const borrower = await Borrower.findById(req.params.id).populate('borrowBook')
+    // console.log("\n"+borrower);
+    // console.log("\n"+"Book that is borrowed: "+borrower.borrowBook._id+"\n");
+
+    const bookId = await Book.findById(borrower.borrowBook._id)
+    // console.log("\n"+bookId._id);
+
+    try {
+        const bookSearchQuery = {
+            _id: bookId._id
         }
+
+        Book.updateOne(bookSearchQuery, {
+            $inc: {
+                currentCopies: 1
+            }
+        }, function (err, res) {
+            if (err) throw err;
+            console.log("1 Copy updated.");
+        })
+
+        await bookId.save();
+
+        const searchQuery = {
+            _id: req.params.id
+        }
+        const returnedOnDate = {
+            $set: {
+                returnedOn: Date.now(),
+            }
+        }
+        Borrower.updateOne(searchQuery, returnedOnDate, function (err) {
+            if (err) throw err;
+            console.log("\n1 Book returned.");
+        })
+
+
+
+        res.redirect('/library/issue#' + req.params.id);
+
+    } catch (error) {
+        console.log(error);
     }
-    Borrower.updateOne(searchQuery, returnedOnDate, function (err, res) {
-        if (err) throw err;
-        console.log("1 Document updated.");
-    })
-    res.redirect('/library/issue#'+req.params.id);
+
+
+    // const searchQuery = {
+    //     _id: req.params.id
+    // }
+    // const returnedOnDate = {
+    //     $set: {
+    //         returnedOn: Date.now(),
+    //     }
+    // }
+    // Borrower.updateOne(searchQuery, returnedOnDate, function (err) {
+    //     if (err) throw err;
+    //     console.log("\n1 Book returned.");
+    // })
+    // res.redirect('/library/issue#' + req.params.id);
 })
 
 
