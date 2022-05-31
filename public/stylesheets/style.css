@@ -326,3 +326,9 @@ a {
   color: #aaa;
   font-style: Lato, sans-serif;
 }
+
+.returnLink:visited {
+  color: #6f7a85;
+  display: none;
+}
+

@@ -188,7 +188,7 @@
             {{#each borrowerDetails}}
               <tr id="{{this.name}}">
                 <td id="{{this._id}}">{{this.name}}</td>
-                <td>{{this.borrowBook.bookTitle}}</td>
+                <td><a href="/library/books/{{this.borrowBook._id}}">{{this.borrowBook.bookTitle}}</a></td>
                 <td>{{this.borrowDate}}</td>
                 <td>{{this.returnDate}}</td>
                 {{#if this.returnedOn}}
@@ -199,7 +199,7 @@
                 <td>{{this.issuedBy}}</td>
                 <td>
                   <div>
-                    <a class="btnn" href="/library/return/{{this._id}}" style="margin-right: 14px;">Return <i class="icon-refresh"></i></a>
+                    <a class="returnLink" href="/library/return/{{this._id}}" style="margin-right: 14px;">Return <i class="icon-refresh"></i></a>
                     <a href="/library/issue/delete/{{this._id}}" style="color: #e5053a;">Delete <i class="icon-trash"></i></a>
                   </div>
                 </td>
