@@ -422,7 +422,7 @@ router.post('/issued', requireAuth, async (req, res) => {
 
         await bookId.save();
 
-        res.redirect('/library/issue');
+        res.redirect('/library/issue#'+name);
     } catch (error) {
         console.log(error);
     }
@@ -478,7 +478,7 @@ router.get('/return/:id', requireAuth, async (req, res) => {
         if (err) throw err;
         console.log("1 Document updated.");
     })
-    res.redirect('/library/issue#issueSection');
+    res.redirect('/library/issue#'+req.params.id);
 })
 
 

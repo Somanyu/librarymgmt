@@ -186,12 +186,16 @@
           </thead>
           <tbody style="font-family: Roboto, sans-serif;">
             {{#each borrowerDetails}}
-              <tr>
-                <td>{{this.name}}</td>
+              <tr id="{{this.name}}">
+                <td id="{{this._id}}">{{this.name}}</td>
                 <td>{{this.borrowBook.bookTitle}}</td>
                 <td>{{this.borrowDate}}</td>
                 <td>{{this.returnDate}}</td>
+                {{#if this.returnedOn}}
                 <td>{{this.returnedOn}}</td>
+                {{else}}
+                <td>To be Returned.</td>
+                {{/if}}
                 <td>{{this.issuedBy}}</td>
                 <td>
                   <div>
