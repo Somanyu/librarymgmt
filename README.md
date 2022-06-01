@@ -13,7 +13,7 @@
   </a>
 </p>
 
-> Library Management System developed using nodeJS, Express and MongoDB and deployed on Azure App Service.
+> A management system for libraries developed using nodeJS, ExpressJS and mongoDB. Add books based on different publications and categories. Search between many books instantly with the implementation of jQeury and mongoDB find query. Issue a book to a person and keep a record by mentioning when they borrowed and returned or to be returned. Authenticate yourself by loging into the system through proper JWT authentication and session management which secures your profile data throughout your session. Ensure proper data is recorded via the implementation of Joi validation at each level of data feeding to the database. So there is no improper data shown while displaying it.
 
 ### 🏠 [Homepage](https://github.com/Somanyu/librarymgmt#readme)
 
@@ -34,7 +34,7 @@ npm run start
 ## Run tests
 
 ```sh
-npm test
+no run test
 ```
 
 ## Author
