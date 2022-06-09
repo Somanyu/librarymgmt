@@ -505,8 +505,6 @@ router.get('/return/:id', requireAuth, async (req, res) => {
             console.log("\n1 Book returned.");
         })
 
-
-
         res.redirect('/library/issue#' + req.params.id);
 
     } catch (error) {
@@ -517,6 +515,37 @@ router.get('/return/:id', requireAuth, async (req, res) => {
 
 /* DELETE a Borrower details from mongoDB Collection. */
 router.get('/issue/delete/:id', requireAuth, async (req, res) => {
+
+    const borrower = await Borrower.findById(req.params.id).populate('borrowBook')
+    // console.log("\n"+borrower);
+    // console.log("\n"+"Book that is borrowed: "+borrower.borrowBook._id+"\n");
+
+    const bookId = await Book.findById(borrower.borrowBook._id)
+    // console.log("\n"+bookId._id);
+
+    const bookSearchQuery = {
+        _id: bookId._id
+    }
+
+    try {
+        const bookSearchQuery = {
+            _id: bookId._id
+        }
+
+        Book.updateOne(bookSearchQuery, {
+            $inc: {
+                currentCopies: 1
+            }
+        }, function (err, res) {
+            if (err) throw err;
+            console.log("1 Copy updated.");
+        })
+
+        await bookId.save();
+
+    } catch (error) {
+        console.log(error);
+    }
 
     Promise.all([Borrower.deleteOne({ _id: new mongo.ObjectId(req.params.id) }).populate('borrowBook')]).then(([content]) => {
         // console.log(content);
