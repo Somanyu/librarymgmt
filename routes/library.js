@@ -41,8 +41,8 @@ router.post('/category', requireAuth, async (req, res) => {
     }
 
     // Check if categoryId and categoryName exists in DB.
-    const categoryIdExist = await Category.findOne({ categoryId: categoryId });
-    const categoryNameExist = await Category.findOne({ categoryName: categoryName });
+    const categoryIdExist = await Category.findOne({ categoryId: { $eq: categoryId } });
+    const categoryNameExist = await Category.findOne({ categoryName: { $eq: categoryName } });
     if (categoryIdExist) {
         req.flash('message', 'Book with this Category already exists.');
         res.redirect('/library/category');
@@ -103,8 +103,8 @@ router.post('/publication', requireAuth, async (req, res) => {
     }
 
     // Check if publicationId and publicationName exists in DB.
-    const publicationIdExist = await Publication.findOne({ publicationId: publicationId });
-    const publicationNameExist = await Publication.findOne({ publicationName: publicationName });
+    const publicationIdExist = await Publication.findOne({ publicationId: { $eq: publicationId } });
+    const publicationNameExist = await Publication.findOne({ publicationName: { $eq: publicationName } });
     if (publicationIdExist) {
         req.flash('message', 'Book with this publication already exists.');
         res.redirect('/library/publication');
