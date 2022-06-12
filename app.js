@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const session = require('express-session');
 const flash = require('connect-flash');
+const rateLimit = require('express-rate-limit');
 
 dotenv.config({ path: './.env' });
 
@@ -16,6 +17,18 @@ var authRouter = require('./routes/auth');
 const libraryRouter = require('./routes/library');
 
 const app = express();
+
+// Set up rate limiter: maximum of five requests per minute
+var limiter = rateLimit({
+  windowMs: 5*60*1000, // 5 minutes
+  max: 5, // Limit each IP to 5 requests per `window` every 5 minutes.
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers.
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers 
+});
+
+// Apply rate limiter to all requests
+app.use(limiter);
+
 
 // Create Session for middleware
 app.use(session({
